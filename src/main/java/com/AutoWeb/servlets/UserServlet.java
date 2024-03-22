@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.AutoWeb.entities.User;
+import com.AutoWeb.dao.UserDAO;
+
 /**
  * Servlet implementation class UserServlet
  */
@@ -34,8 +37,21 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String cpf = request.getParameter("cpf");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+	
+		User newUser = new User();
+		
+		newUser.setCpf(cpf);
+		newUser.setName(name);
+		newUser.setEmail(email);
+		newUser.setPassword(password);
+		
+		UserDAO userDAO = new UserDAO();
+		
+		userDAO.addUser(newUser);
 	}
 
 	/**

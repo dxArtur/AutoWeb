@@ -6,11 +6,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+
+import com.AutoWeb.dao.UserDAO;
+import com.AutoWeb.entities.User;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet")
+@WebServlet("/signin")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,8 +38,21 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		 String email = request.getParameter("email");
+	     String password = request.getParameter("password");
+	     
+	     Optional<User> userAttemphAuth = UserDAO.attemphAuth(email);
+	     
+	     if (userAttemphAuth.isPresent()) {
+	    	 User user = userAttemphAuth.get();
+		     if ( password.equals(user.getPassword())) {
+		    	 request.getSession().setAttribute("user", user);
+		    	 response.sendRedirect(request.getContextPath()+ "/sucess.jsp");
+	    	 } else {
+	    		 response.sendRedirect(request.getContextPath() + "/erro.jsp");
+	    	 }
+	     } else {
+	    	 response.sendRedirect("erro.jsp");
+	     }
 	}
-
 }
