@@ -9,7 +9,7 @@ public class SchemaSetup {
 		try {
 		Statement statement = connection.createStatement();
 		String createUserTable = "CREATE TABLE IF NOT EXISTS users (\r\n"
-				+ "    id BIGINT PRIMARY KEY AUTO_INCREMENT,"
+				+ "    id SERIAL PRIMARY KEY,"
 				+ "    name VARCHAR(255) NOT NULL,"
 				+ "    email VARCHAR(255) NOT NULL,"
 				+ "    password VARCHAR(255) NOT NULL,"
@@ -20,7 +20,7 @@ public class SchemaSetup {
 
         // Criar tabela clientes
         String createCostumerTable = "CREATE TABLE IF NOT EXISTS customers ("
-                + "id BIGINT PRIMARY KEY AUTO_INCREMENT,"
+                + "id SERIAL PRIMARY KEY,"
                 + "name VARCHAR(255) NOT NULL,"
                 + "email VARCHAR(255) NOT NULL UNIQUE,"
                 + "cpf VARCHAR(14) NOT NULL UNIQUE"
@@ -30,7 +30,7 @@ public class SchemaSetup {
 
         // Criar tabela peças
         String createPartsTable = "CREATE TABLE IF NOT EXISTS parts ("
-                + "id BIGINT PRIMARY KEY AUTO_INCREMENT,"
+                + "id SERIAL PRIMARY KEY,"
                 + "description VARCHAR(255) NOT NULL,"
                 + "value DECIMAL(10, 2) NOT NULL,"
                 + "quantity INT NOT NULL"
@@ -43,7 +43,7 @@ public class SchemaSetup {
         String createVehiclesTable = "CREATE TABLE IF NOT EXISTS vehicles ("
                 + "plate VARCHAR(20) PRIMARY KEY,"
                 + "model VARCHAR(255) NOT NULL,"
-                + "manufacture_year INT NOT NULL,"
+                + "manufacture_year INT NOT NULL"
                 + ")";
         statement.execute(createVehiclesTable);
         System.out.println("Tabela veiculos criada com sucesso.");
@@ -59,7 +59,7 @@ public class SchemaSetup {
         
         //Criar tabela ordem de serviço
         String createServiceOrderTable = "CREATE TABLE IF NOT EXISTS service_order ("
-                + "id SERIAL PRIMARY KEY,"
+                + "id SERIAL PRIMARY KEY ,"
                 + "description VARCHAR(255) NOT NULL,"
                 + "value NUMERIC(10,2) NOT NULL"
                 + ")";
@@ -74,7 +74,7 @@ public class SchemaSetup {
                 + "email VARCHAR(255) NOT NULL UNIQUE,"
                 + "cpf VARCHAR(14) NOT NULL UNIQUE,"
                 + "position VARCHAR(255) NOT NULL,"
-                + "salary numeric(10,2) NOT NULL,"
+                + "salary numeric(10,2) NOT NULL"
                 + ")";
         statement.execute(createEmployeeTable);
         System.out.println("Tabela funcionarios criada com sucesso.");
@@ -86,7 +86,7 @@ public class SchemaSetup {
                 + "customer_id BIGINT NOT NULL,"
                 + "PRIMARY KEY (order_id, customer_id),"
                 + "FOREIGN KEY (order_id) REFERENCES service_order(id),"
-                + "FOREIGN KEY (customer_id) REFERENCES customer(id),"
+                + "FOREIGN KEY (customer_id) REFERENCES customers(id)"
                 + ")";
         statement.execute(createServiceOrderCostumerTable);
         System.out.println("Tabela de ordem de servico de clientes criada com sucesso.");
@@ -95,10 +95,10 @@ public class SchemaSetup {
         
         String createServiceOrderVehicleTable = "CREATE TABLE IF NOT EXISTS service_order_vehicle ("
                 + "order_id BIGINT NOT NULL,"
-                + "vehicle_id BIGINT NOT NULL,"
-                + "PRIMARY KEY (order_id, vehicle_id),"
+                + "vehicle_plate VARCHAR(20) NOT NULL,"
+                + "PRIMARY KEY (order_id, vehicle_plate),"
                 + "FOREIGN KEY (order_id) REFERENCES service_order(id),"
-                + "FOREIGN KEY (vehicle_id) REFERENCES vehicle(id),"
+                + "FOREIGN KEY (vehicle_plate) REFERENCES vehicles(plate)"
                 + ")";
         statement.execute(createServiceOrderVehicleTable);
         System.out.println("Tabela de ordem de servico de veiculos criada com sucesso.");
@@ -107,10 +107,10 @@ public class SchemaSetup {
         
         String createSaleItemTable = "CREATE TABLE IF NOT EXISTS sale_items ("
                 + "sale_id BIGINT PRIMARY KEY,"
-                + "item_id BIGINT NOT NULL,"
+                + "part_id BIGINT NOT NULL,"
                 + "quantity INT NOT NULL,"
-                + "FOREIGN KEY (sale_id) REFERENCES sale(id),"
-                + "FOREIGN KEY (item_id) REFERENCES item(id),"
+                + "FOREIGN KEY (sale_id) REFERENCES sales(id),"
+                + "FOREIGN KEY (part_id) REFERENCES parts(id)"
                 + ")";
         statement.execute(createSaleItemTable);
         System.out.println("Tabela de itens vendidos criada com sucesso.");
