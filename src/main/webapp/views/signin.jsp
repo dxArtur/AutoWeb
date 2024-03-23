@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>Sign in</h1>
-	<form action="signin" method="post">
+	<form action="LoginServlet" method="post">
 		<div>
 			<label>Email:</label>
 			<input type="text" id="email" name="email">

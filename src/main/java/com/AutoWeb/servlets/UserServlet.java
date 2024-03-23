@@ -1,11 +1,12 @@
 package com.AutoWeb.servlets;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 import com.AutoWeb.entities.User;
@@ -38,9 +39,9 @@ public class UserServlet extends HttpServlet {
 		
 		if (user.isPresent()) {
 			request.setAttribute("user", user);
-			request.getRequestDispatcher("/user.jsp").forward(request, response);
+			request.getRequestDispatcher("views/user.jsp").forward(request, response);
 		} else {
-	    	 response.sendRedirect("erro.jsp");
+	    	 response.sendRedirect("views/erro.jsp");
 	     }
 		
 		// TODO Auto-generated method stub
@@ -66,7 +67,7 @@ public class UserServlet extends HttpServlet {
 		UserDAO userDAO = new UserDAO();
 		
 		userDAO.addUser(newUser);
-		response.sendRedirect("sucess.jsp");
+		response.sendRedirect("views/sucess.jsp");
 	}
 
 	/**
