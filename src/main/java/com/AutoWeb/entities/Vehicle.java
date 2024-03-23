@@ -4,7 +4,7 @@ public class Vehicle {
 //veiculo
 	
 	private String model;
-	private int manufactureYear;
+	private Integer manufactureYear;
 	private String plate;
 	
 	
@@ -17,7 +17,7 @@ public class Vehicle {
 	public int getManufactureYear() {
 		return manufactureYear;
 	}
-	public void setManufactureYear(int manufactureYear) {
+	public void setManufactureYear(Integer manufactureYear) {
 		this.manufactureYear = manufactureYear;
 	}
 	public String getPlate() {

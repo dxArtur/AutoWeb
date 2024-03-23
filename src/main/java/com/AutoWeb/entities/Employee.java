@@ -9,7 +9,7 @@ public class Employee {
 		private String email;
 		private String cpf;
 		private String position;
-	    private double salary;
+	    private Double salary;
 	    
 		public Long getId() {
 			return id;
