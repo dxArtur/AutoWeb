@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import com.AutoWeb.entities.User;
 import com.AutoWeb.dao.UserDAO;
@@ -16,6 +17,7 @@ import com.AutoWeb.dao.UserDAO;
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -29,8 +31,20 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userCpf = request.getParameter("cpf");
+		UserDAO userDAO = new UserDAO();
+			
+		Optional<User> user = userDAO.getUserByCpf(userCpf);
+		
+		if (user.isPresent()) {
+			request.setAttribute("user", user);
+			request.getRequestDispatcher("/user.jsp").forward(request, response);
+		} else {
+	    	 response.sendRedirect("erro.jsp");
+	     }
+		
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("helloworld at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -52,6 +66,7 @@ public class UserServlet extends HttpServlet {
 		UserDAO userDAO = new UserDAO();
 		
 		userDAO.addUser(newUser);
+		response.sendRedirect("sucess.jsp");
 	}
 
 	/**

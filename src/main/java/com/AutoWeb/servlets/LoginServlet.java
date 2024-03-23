@@ -41,7 +41,8 @@ public class LoginServlet extends HttpServlet {
 		 String email = request.getParameter("email");
 	     String password = request.getParameter("password");
 	     
-	     Optional<User> userAttemphAuth = UserDAO.attemphAuth(email);
+	     UserDAO userDAO = new UserDAO();
+	     Optional<User> userAttemphAuth = userDAO.attemphAuth(email);
 	     
 	     if (userAttemphAuth.isPresent()) {
 	    	 User user = userAttemphAuth.get();
