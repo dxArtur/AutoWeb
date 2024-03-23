@@ -44,4 +44,19 @@ public class SaleDAO {
 		}
 		return sale;
 	}
+	
+	public void updateSale(Long id, Sale updatedSale) {
+		String sql = "UPDATE sales SET value = ? WHERE id = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setDouble(1, updatedSale.getValue());
+			stmt.setLong(2, id);
+			int rowsInserted = stmt.executeUpdate();
+			if (rowsInserted == 0) {
+				throw new RuntimeException("Nenhuma venda encontrada sob o id");
+			}
+		}catch (SQLException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 }

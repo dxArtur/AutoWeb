@@ -48,4 +48,21 @@ public class ServiceOrderDAO {
 		}
 		return Optional.empty();
 	}
+	
+	
+	public void updateSale(Long id, ServiceOrder updatedServiceOrder) {
+		String sql = "UPDATE service_order SET description = ? value = ? WHERE id = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, updatedServiceOrder.getDescription());
+			stmt.setDouble(2, updatedServiceOrder.getValue());
+			stmt.setLong(3, id);
+			int rowsInserted = stmt.executeUpdate();
+			if (rowsInserted == 0) {
+				throw new RuntimeException("Nenhuma ordem de servico encontrada sob o id");
+			}
+		}catch (SQLException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 }

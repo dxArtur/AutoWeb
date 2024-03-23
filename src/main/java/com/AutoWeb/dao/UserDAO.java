@@ -26,11 +26,39 @@ public class UserDAO {
 			stmt.setString(2, user.getName());
 			stmt.setString(3, user.getEmail());
 			stmt.setString(4, user.getPassword());
+			
+			int rowsInserted = stmt.executeUpdate(); 
+	        if (rowsInserted > 0) {
+	            System.out.println("Usuario adicionado com sucesso.");
+	        } else {
+	            System.out.println("Falha ao adicionar usuario.");
+	        }
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
+	public Optional<User> getUserByCpf(String cpf) {
+		String sql = "SELECT * FROM users WHERE cpf =?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, cpf);
+			try (ResultSet resultSet = stmt.executeQuery()) {
+				if (resultSet.next()) {
+					User user = new User();
+					user.setId(resultSet.getLong("id"));
+					user.setName(resultSet.getString("name"));
+					user.setEmail(resultSet.getString("email"));
+					user.setCpf(resultSet.getString("cpf"));
+					user.setPassword(resultSet.getString("password"));
+					return Optional.of(user);
+				}
+			}
+		}catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return Optional.empty();
+	}
 	
 	public  Optional<User> attemphAuth(String email) {
 		String sql = "select * from users where email = ?";
