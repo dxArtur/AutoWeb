@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+body {
+    background-color: rgb(0, 32, 59);
+    color: white;
+}
+
+
+body .signup-page-container {
+    background-color: rgb(0, 32, 59);
+    color: white;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 75vh;
+    margin:0;
+}
+
+label{
+    margin: 5px;
+}
+
+.input {
+    background-color: rgb(1, 29, 53);
+    border-color: white;
+    border-width: thin;
+    margin: 5px; 
+}
+
+.bttn{
+    background-color: rgb(151, 0, 0);
+    margin: 5px;
+    color: white;
+    border-style: none;
+
+}
+
+
+.form-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(1, 19, 36);
+    padding: 50px;
+}
+
+hr{
+    color:rgb(202, 231, 255);
+    border-style: solid;
+    width: 200px;
+}
+
+header  {
+    display: flex;
+    background-color: rgb(1, 19, 36);
+    padding: 10px 0;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+header img{
+    padding: 2px;
+    max-width: 50px;
+    height: auto;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffcc00;
+}
+
+
+footer {
+    background-color: rgb(1, 19, 36);
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 50px;
+}
+
+
