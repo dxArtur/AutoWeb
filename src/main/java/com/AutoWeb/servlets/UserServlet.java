@@ -66,7 +66,7 @@ public class UserServlet extends HttpServlet {
 		UserDAO userDAO = new UserDAO();
 		
 		userDAO.addUser(newUser);
-		response.sendRedirect("sucess.jsp");
+		response.sendRedirect("home.jsp");
 	}
 
 	/**
