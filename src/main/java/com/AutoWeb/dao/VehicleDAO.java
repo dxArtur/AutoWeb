@@ -4,11 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
 
-
+import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.Vehicle;
 
 public class VehicleDAO {
 	private Connection connection;
+	
+	public VehicleDAO() {
+		this.connection = new ConnectionFactory().getConnection();
+	}
 	
 	public void addPart(Vehicle vehicle) {
 		String sql = "INSERT INTO vehicles (plate, model, manufactureYear) VALUES (?, ?, ?)";
