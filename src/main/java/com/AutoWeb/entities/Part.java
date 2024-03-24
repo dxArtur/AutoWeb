@@ -4,13 +4,6 @@ public class Part {
 //peça
 	
 	private Long id;
-	private String name;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	private String description;
 	private Double value;
 	private Integer quantity;
