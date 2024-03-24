@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.AutoWeb.database.ConnectionFactory;
-import com.AutoWeb.entities.Part;
 import com.AutoWeb.entities.ServiceOrder;
 
 
@@ -69,6 +68,22 @@ public class ServiceOrderDAO {
 	    }
 	}
 	
+	public void deleteServiceOrder(Long id) {
+		String sql = "UPDATE service_order SET description = ? value = ? WHERE id = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setLong(1, id);
+			int rowsDeleted = stmt.executeUpdate();
+	            if (rowsDeleted > 0) {
+	                System.out.println("Ordem de serviço deletado com sucesso.");
+	            } else {
+	                System.out.println("Falha ao deletar ordem de serviço. Nenhuma ordem de serviço foi deletada");
+	            }
+		}catch (SQLException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
+	
 	public List<ServiceOrder> getAllServiceOrderCostumer(Long id) {
 		List<ServiceOrder> servicesOrder = new ArrayList<>();
 		
@@ -87,6 +102,29 @@ public class ServiceOrderDAO {
 
 		}catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar todas as ordens de serviço de um usuario: " + e.getMessage());
+	}
+	
+		return servicesOrder;
+	}
+	
+	public List<ServiceOrder> getAllServiceOrderVehicle(String plate) {
+		List<ServiceOrder> servicesOrder = new ArrayList<>();
+		
+		String sql = "SELECT * FROM service_order_vehicle WHERE vehicle_plate = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, plate);
+			ResultSet resultSet = stmt.executeQuery();
+			while (resultSet.next()) {
+				ServiceOrder serviceOrder = new ServiceOrder();
+				serviceOrder.setId(resultSet.getLong("id"));
+				serviceOrder.setDescription(resultSet.getString("description"));
+				
+				servicesOrder.add(serviceOrder);
+			}
+
+		}catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todas as ordens de serviço de um veiculo: " + e.getMessage());
 	}
 	
 		return servicesOrder;
