@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Sign in</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
 </head>
 <body class="signup-page-container">
 	<div class="form-container">
