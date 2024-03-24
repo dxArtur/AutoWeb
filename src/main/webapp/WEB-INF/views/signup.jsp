@@ -18,7 +18,7 @@
         <p>Crie sua conta para explorar nossos produtos e serviços.</p>
     </div>
 
-    <form action="<c:url value='/UserServlet'/>" method="post" class="login-container">
+    <form action="UserServlet" method="post" class="login-container">
         <div class="input-group">
             <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
         </div>
