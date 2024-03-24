@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +12,7 @@
 </head>
 <body>
 	<header class="header-container">
-        <h2>Bem-vindo ao AutoBulls   </h2>
+        <h2 class="welcome">Bem-vindo ao AutoBulls   </h2>
         <nav>
             <ul>
                 <li><a href="index.jsp">Início</a></li>
@@ -20,34 +23,24 @@
         </nav>
 	</header>
 	
-	<main>
-        <section class="destaques">
-            <h2>Comprar peças</h2>
-            <!-- Adicione os produtos em destaque aqui -->
-            <div class="produto">
-                <img src="caminho/para/imagem1.jpg" alt="Produto 1">
-                <h3>Nome do Produto 1</h3>
-                <p>Descrição breve do Produto 1.</p>
-                <span>R$ 100,00</span>
-                <a href="detalhes-produto.jsp?id=1">Detalhes</a>
-            </div>
+	<main class="content-container">
+        <h3>Em que podemos ajudar hoje?</h2>
+        <div class="options-container">
+			<!-- c:url var="exibirPecasURL" value="/exibirPecas.jsp" /-->
+			<a href="${all_parts}" class="options">
+				<h2>Comprar peças</h2>
+			</a>
             <!-- Adicione mais produtos em destaque conforme necessário -->
-        </section>
-
-        <section class="servicos">
-            <h2>Novo serviços</h2>
-            <!-- Adicione os serviços oferecidos aqui -->
-            <div class="servico">
-                <h3>Serviço 1</h3>
-                <p>Descrição do Serviço 1.</p>
-                <a href="detalhes-servico.jsp?id=1">Detalhes</a>
-            </div>
-            <!-- Adicione mais serviços conforme necessário -->
-        </section>
+            
+            <a class="options">
+                <h2>Novo serviços</h2>
+                <!-- Adicione mais serviços conforme necessário -->
+            </a>
+        </div>
     </main>
     
-    <footer>
-        <p>&copy; 2024 Mais Lab - </p>
+    <footer class="footer-container">
+        <p>&copy; 2024 Mais Lab - Daniel Artur front end developer</p>
     </footer>
 
 </body>

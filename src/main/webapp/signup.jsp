@@ -11,7 +11,7 @@
 	<div class="form-container">
 		<h1>Seja bem-vindo!</h1>
 		<hr>
-    	<form action="servlet/UserServlet" method="post">
+    	<form action="UserServlet" method="post">
         	<label for="cpf">CPF:</label><br>
         	<input class= "input" type="text" id="cpf" name="cpf" required><br>
         
