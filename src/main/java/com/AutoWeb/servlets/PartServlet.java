@@ -21,7 +21,6 @@ public class PartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
         if (action != null && action.equals("delete")) {
             deletePart(request, response);
         } else {
@@ -29,11 +28,10 @@ public class PartServlet extends HttpServlet {
         }
     }
 
-    private void listParts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void listParts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
         List<Part> parts = partDAO.getAllParts();
         request.setAttribute("parts", parts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/parts/list_parts.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/parts/list_parts.jsp").forward(request, response);
     }
 
     private void deletePart(HttpServletRequest request, HttpServletResponse response) throws IOException {
