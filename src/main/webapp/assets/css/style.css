@@ -183,6 +183,31 @@ nav ul li a:hover {
     color: rgb(255, 204, 0);
 }
 
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-container input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    margin-right: -4px; /* Ajuste para alinhar com o botão */
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
 
 
 
