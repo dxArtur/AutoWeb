@@ -66,9 +66,9 @@ public class CustomerDAO {
 			stmt.setLong(1, id);
 			int rowsDeleted = stmt.executeUpdate();
 			if (rowsDeleted > 0) {
-                System.out.println("Peça deletada com sucesso.");
+                System.out.println("Cliente deletado com sucesso.");
             } else {
-                System.out.println("Falha ao deletar peça. Nenhuma ordem de serviço foi deletada");
+                System.out.println("Falha ao deletar cliente. Nenhuma ordem de serviço foi deletada");
             }
 	    }catch (SQLException e) {
 	        throw new RuntimeException(e);

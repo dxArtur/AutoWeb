@@ -92,7 +92,7 @@ public class VehicleDAO {
 	        if (rowsDeleted > 0) {
 	            System.out.println("Veículo deletado com sucesso.");
 	        } else {
-	            System.out.println("Falha ao deletar veículo. Nenhum veículo encontrado com a placa especificada.");
+	        	System.out.println("Falha ao deletar veículo. Nenhum veículo encontrado com a placa especificada.");
 	        }
 	    } catch (SQLException e) {
 	        throw new RuntimeException("Erro ao deletar veículo: " + e.getMessage());
