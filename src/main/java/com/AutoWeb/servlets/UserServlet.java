@@ -6,8 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
-
+import java.util.List;
 import com.AutoWeb.entities.User;
 import com.AutoWeb.dao.UserDAO;
 
@@ -22,30 +21,21 @@ public class UserServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
+    private UserDAO userDAO;
+
     public UserServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        this.userDAO = new UserDAO();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userCpf = request.getParameter("cpf");
-		UserDAO userDAO = new UserDAO();
-			
-		Optional<User> user = userDAO.getUserByCpf(userCpf);
-		
-		if (user.isPresent()) {
-			request.setAttribute("user", user);
-			request.getRequestDispatcher("/user.jsp").forward(request, response);
-		} else {
-	    	 response.sendRedirect("erro.jsp");
-	     }
-		
-		// TODO Auto-generated method stub
-		response.getWriter().append("helloworld at: ").append(request.getContextPath());
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<User> users = userDAO.listAllUsers();
+        request.setAttribute("users", users);
+        request.getRequestDispatcher("/WEB-INF/views/users/list_clients.jsp").forward(request, response);
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
