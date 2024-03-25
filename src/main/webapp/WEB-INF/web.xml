@@ -4,9 +4,17 @@
 
     <!-- Página de boas-vindas -->
     <welcome-file-list>
-	    <welcome-file>home.jsp</welcome-file>
+	    <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-
+	
+	<servlet>
+	    <servlet-name>EmployeeServlet</servlet-name>
+	    <servlet-class>com.AutoWeb.servlets.EmployeeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>EmployeeServlet</servlet-name>
+	    <url-pattern>/employees/*</url-pattern>
+	</servlet-mapping>
     <!-- Configurações de página de erro -->
     <error-page>
         <error-code>404</error-code>
