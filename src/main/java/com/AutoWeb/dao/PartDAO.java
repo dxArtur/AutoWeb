@@ -51,7 +51,6 @@ public class PartDAO {
 	
 	public List<Part> getAllParts() {
 		List<Part> parts = new ArrayList<>();
-		
 		String sql = "SELECT * FROM parts";
 
 		try {
