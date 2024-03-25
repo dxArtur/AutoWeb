@@ -29,14 +29,21 @@ public class AllPartsServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PartDAO partDAO = new PartDAO();		
-		List<Part> parts =partDAO.getAllParts();
-		request.setAttribute("parts", parts);
-		request.getRequestDispatcher("list_parts.jsp").forward(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String searchQuery = request.getParameter("searchQuery");
+        PartDAO partDAO = new PartDAO();
+        List<Part> parts;
 
-		
-	}
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            parts = partDAO.searchPartsByName(searchQuery);
+        } else {
+            parts = partDAO.getAllParts();
+        }
+
+        request.setAttribute("parts", parts);
+        request.getRequestDispatcher("/WEB-INF/views/all_parts.jsp").forward(request, response);
+
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
