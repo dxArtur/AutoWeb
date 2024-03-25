@@ -14,6 +14,10 @@
     <a href="${pageContext.request.contextPath}/page/parts/add_part" class="btn">Adicionar Nova Peça</a>
     <table>
         <thead>
+        <c:if test="${empty parts}">
+		    <p>Nenhuma peça encontrada.</p>
+		</c:if>
+        
             <tr>
                 <th>ID</th>
                 <th>Descrição</th>

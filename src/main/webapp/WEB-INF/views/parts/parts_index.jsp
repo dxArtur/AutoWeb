@@ -12,7 +12,7 @@
 <div class="container">
     <h1>Gerenciamento de Peças</h1>
     <div>
-        <a href="<c:url value='/page/parts/list_parts'/>" class="btn">Ver Lista de Peças</a>
+        <a href="${pageContext.request.contextPath}/PartServlet">Ver Lista de Peças</a>
 		<a href="<c:url value='/page/parts/add_part'/>" class="btn">Adicionar Nova Peça</a>
     </div>
 </div>
