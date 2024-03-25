@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.User;
@@ -78,6 +80,46 @@ public class UserDAO {
 			throw new RuntimeException(e);
 		}
 		return Optional.empty();
+	}
+	
+	public List<User> listAllUsers() {
+	    List<User> users = new ArrayList<>();
+	    String sql = "SELECT * FROM users";
+	    try (PreparedStatement stmt = connection.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+	        while (rs.next()) {
+	            User user = new User();
+	            user.setId(rs.getLong("id"));
+	            user.setName(rs.getString("name"));
+	            user.setEmail(rs.getString("email"));
+	            user.setCpf(rs.getString("cpf"));
+	            user.setPassword(rs.getString("password"));
+	            users.add(user);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao listar usuários: " + e.getMessage(), e);
+	    }
+	    return users;
+	}
+	
+	public void updateUser(User user) {
+	    String sql = "UPDATE users SET name = ?, email = ?, cpf = ?, password = ? WHERE id = ?";
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+	        stmt.setString(1, user.getName());
+	        stmt.setString(2, user.getEmail());
+	        stmt.setString(3, user.getCpf());
+	        stmt.setString(4, user.getPassword());
+	        stmt.setLong(5, user.getId());
+	        
+	        int rowsAffected = stmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("Usuário atualizado com sucesso.");
+	        } else {
+	            System.out.println("Falha ao atualizar usuário. Nenhum usuário encontrado com o ID: " + user.getId());
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage(), e);
+	    }
 	}
 }
 
