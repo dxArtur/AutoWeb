@@ -4,6 +4,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: rgb(0, 32, 59);
     color: white;
+    margin: 0;
 }
 
 .header-container  {
@@ -15,21 +16,119 @@ body {
     justify-content: space-between;
 }
 
+.image-container {
+    width: 100%;
+    position: relative;
+    overflow:hidden;
+}
+
+.image-container img {
+    width: 100%; /* Imagem ocupa 100% da largura do contêiner */
+    height: auto; /* Altura ajustada automaticamente para manter proporção */
+    
+    display: block; /* Para garantir que a imagem se ajuste corretamente */
+}
+
+.welcome {
+    font-size: 28px;
+    top: 85%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    color: white;
+    z-index: 1;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+}
+
+.services-container{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centralizar itens verticalmente */
+    align-items: center
+}
+
+.advantages-container {
+    text-align: center; /* Centralizar texto horizontalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centralizar itens verticalmente */
+    align-items: center; /* Centralizar itens horizontalmente */
+}
+
+.advantages {
+    gap: 20px;
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.hr{
+    
+}
+
+
 
 
 .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(1, 19, 36);
+
+}
+
+
+
+
+
+
+
+.footer-content {
+    height: 170px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     background-color: rgb(1, 19, 36);
     color: #fff;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px ;
     margin-bottom: 0;
+}
+
+.footer-column {
+    width: 50%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.social-links {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.social-link {
+    display: inline-block;
+    margin-right: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.social-link i {
+    margin-right: 5px;
+}
+
+.copyright {
+    text-align: center;
 }
 
 .content-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px;
 }
 
@@ -38,7 +137,7 @@ body {
         align-items: center;
         justify-content: center;
         gap: 20px;
-        width: 100%;
+        width: 50%;
 }
 
 .options {

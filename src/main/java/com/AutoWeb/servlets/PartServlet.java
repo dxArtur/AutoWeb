@@ -2,12 +2,17 @@ package com.AutoWeb.servlets;
 
 import com.AutoWeb.dao.PartDAO;
 import com.AutoWeb.entities.Part;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet implementation class PartServlet
+ */
 @WebServlet("/PartServlet")
 public class PartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +22,6 @@ public class PartServlet extends HttpServlet {
         super();
         this.partDAO = new PartDAO();
     }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -53,7 +57,6 @@ public class PartServlet extends HttpServlet {
         String description = request.getParameter("description");
         Double value = Double.valueOf(request.getParameter("value"));
         Integer quantity = Integer.valueOf(request.getParameter("quantity"));
-
         Part part = new Part();
         part.setDescription(description);
         part.setValue(value);

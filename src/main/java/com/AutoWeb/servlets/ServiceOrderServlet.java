@@ -1,11 +1,16 @@
 package com.AutoWeb.servlets;
 
 import java.io.IOException;
+import java.util.Optional;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.dao.ServiceOrderDAO;
 
 /**
  * Servlet implementation class ServiceOrderServlet
@@ -26,30 +31,67 @@ public class ServiceOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String serviceOrderIdString = request.getParameter("serviceOrderId");
+		long serviceOrderId = Long.parseLong(serviceOrderIdString);
+		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+		Optional<ServiceOrder> serviceOrder = serviceOrderDAO.getServiceOrder(serviceOrderId);
+	
+		if (serviceOrder.isPresent()) {
+			request.setAttribute("serviceOrder", serviceOrder);
+			request.getRequestDispatcher("/order_service_details.jsp").forward(request, response);
+		} else {
+			response.sendRedirect("erro.jsp");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String description = request.getParameter("description");
+		Double value = Double.parseDouble(request.getParameter("value"));
+		
+		ServiceOrder serviceOrder = new ServiceOrder();
+		serviceOrder.setDescription(description);
+		serviceOrder.setValue(value);
+		
+		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+		serviceOrderDAO.addServiceOrder(serviceOrder);
+		response.sendRedirect("order_service_details.jsp");
+
 	}
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String serviceOrderIdString = request.getParameter("serviceOrderId");
+		Long serviceOrderId = Long.parseLong(serviceOrderIdString);
+		String description = request.getParameter("description");
+		Double value = Double.parseDouble(request.getParameter("value"));
+		
+		ServiceOrder serviceOrderUpdated = new ServiceOrder();
+		serviceOrderUpdated.setDescription(description);
+		serviceOrderUpdated.setValue(value);
+		
+		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+		
+		serviceOrderDAO.updateServiceOrder(serviceOrderId, serviceOrderUpdated);
+		request.setAttribute("serviceOrder", serviceOrderUpdated);
+		request.getRequestDispatcher("/order_service_details.jsp").forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String serviceOrderIdString = request.getParameter("serviceOrderId");
+		Long serviceOrderId = Long.parseLong(serviceOrderIdString);
+		
+		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+		
+		serviceOrderDAO.deleteServiceOrder(serviceOrderId);
 	}
 
 }
