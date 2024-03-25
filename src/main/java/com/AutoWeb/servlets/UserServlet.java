@@ -40,7 +40,44 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("update".equals(action)) {
+            updateClient(request, response);
+        } else {
+            addClient(request, response);
+        }
+    }
+
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 */
+	private void updateClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    try {
+	        Long id = Long.valueOf(request.getParameter("id"));
+	        String cpf = request.getParameter("cpf");
+	        String name = request.getParameter("name");
+	        String email = request.getParameter("email");
+	        String password = request.getParameter("password");
+
+	        User user = new User();
+	        user.setId(id);
+	        user.setCpf(cpf);
+	        user.setName(name);
+	        user.setEmail(email);
+	        user.setPassword(password);
+
+	        userDAO.updateUser(user);
+
+	        response.sendRedirect(request.getContextPath() + "/UserServlet");
+	    } catch (NumberFormatException e) {
+	        throw new ServletException("ID inválido para atualização de cliente.", e);
+	    }
+	}
+
+	private void addClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cpf = request.getParameter("cpf");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
@@ -56,12 +93,8 @@ public class UserServlet extends HttpServlet {
 		UserDAO userDAO = new UserDAO();
 		
 		userDAO.addUser(newUser);
-		response.sendRedirect("home.jsp");
+		response.sendRedirect(request.getContextPath() + "/UserServlet");
 	}
-
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
