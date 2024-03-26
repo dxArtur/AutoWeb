@@ -6,108 +6,104 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.Employee;
 
 public class EmployeeDAO {
-    private Connection connection;
+	private Connection connection;
 
-    public EmployeeDAO() {
-        this.connection = new ConnectionFactory().getConnection();
-    }
-
-    public void addEmployee(Employee employee) {
-        String sql = "INSERT INTO employees (name, email, cpf, position, salary) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, employee.getName());
-            stmt.setString(2, employee.getEmail());
-            stmt.setString(3, employee.getCpf());
-            stmt.setString(4, employee.getPosition());
-            stmt.setDouble(5, employee.getSalary());
-            
-            stmt.execute();
-            System.out.println("Funcionário adicionado com sucesso.");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao adicionar funcionário: " + e.getMessage(), e);
+	public EmployeeDAO() {
+		this.connection = new ConnectionFactory().getConnection();
+	}
+	
+	public void addPart(Employee employee) {
+		String sql = "INSERT INTO employees (id, name, email, cpf, position, salario) VALUES (?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setLong(1, employee.getId());
+			stmt.setString(2, employee.getName());
+			stmt.setString(3, employee.getEmail());
+			stmt.setString(4, employee.getCpf());
+			stmt.setString(5, employee.getPosition());
+			stmt.setDouble(6, employee.getSalary());
+		
+		int rowsInserted = stmt.executeUpdate(); 
+        if (rowsInserted > 0) {
+            System.out.println("Funcionario adicionado com sucesso.");
+        } else {
+            System.out.println("Falha ao adicionar funcionario.");
         }
-    }
+		
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void updateEmployeeById(long id, Employee updatedEmployee) {
+	    String sql = "UPDATE employees SET name = ?, email = ?, cpf = ?, position = ?, salary = ? WHERE id = ?";
+	    try {
+	        PreparedStatement stmt = connection.prepareStatement(sql);
+	        stmt.setString(1, updatedEmployee.getName());
+	        stmt.setString(2, updatedEmployee.getEmail());
+	        stmt.setString(3, updatedEmployee.getCpf());
+	        stmt.setString(4, updatedEmployee.getPosition());
+	        stmt.setDouble(5, updatedEmployee.getSalary());
+	        stmt.setLong(6, id);
 
-    public List<Employee> listAllEmployees() {
-        List<Employee> employees = new ArrayList<>();
-        String sql = "SELECT * FROM employees";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                Employee employee = new Employee(
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("cpf"),
-                        rs.getString("position"),
-                        rs.getDouble("salary"));          
-                employees.add(employee);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar funcionários: " + e.getMessage(), e);
-        }
-        return employees;
-    }
+	        int rowsUpdated = stmt.executeUpdate();
+	        if (rowsUpdated > 0) {
+	            System.out.println("Funcionário atualizado com sucesso.");
+	        } else {
+	            System.out.println("Falha ao atualizar funcionário. Nenhum funcionário encontrado com o ID especificado.");
+	        }
 
-    public Employee getEmployeeById(long id) {
-        String sql = "SELECT * FROM employees WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Employee(
-                            rs.getLong("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("cpf"),
-                            rs.getString("position"),
-                            rs.getDouble("salary"));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar funcionário: " + e.getMessage(), e);
-        }
-        return null;
-    }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao atualizar funcionário: " + e.getMessage());
+	    }
+	}
+	
+	public void deleteEmployeeById(Long id) {
+	    String sql = "DELETE FROM employees WHERE id = ?";
+	    try {
+	        PreparedStatement stmt = connection.prepareStatement(sql);
+	        stmt.setLong(1, id);
+	        int rowsDeleted = stmt.executeUpdate();
+	        if (rowsDeleted > 0) {
+	            System.out.println("Funcionário deletado com sucesso.");
+	        } else {
+	            System.out.println("Falha ao deletar funcionário. Nenhum funcionário encontrado com o ID especificado.");
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao deletar veículo: " + e.getMessage());
+	    }
+	}
+	
+	public List<Employee> getAllEmployees() {
+	    List<Employee> employees = new ArrayList<>();
+	    String sql = "SELECT * FROM employees";
 
-    public void updateEmployee(Long id, Employee employee) {
-        String sql = "UPDATE employees SET name = ?, email = ?, cpf = ?, position = ?, salary = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, employee.getName());
-            stmt.setString(2, employee.getEmail());
-            stmt.setString(3, employee.getCpf());
-            stmt.setString(4, employee.getPosition());
-            stmt.setDouble(5, employee.getSalary());
-            stmt.setLong(6, id);
-            
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Funcionário atualizado com sucesso.");
-            } else {
-                System.out.println("Nenhum funcionário encontrado com este ID.");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar funcionário: " + e.getMessage(), e);
-        }
-    }
+	    try {
+	        PreparedStatement stmt = connection.prepareStatement(sql);
+	        ResultSet resultSet = stmt.executeQuery();
 
-    public void deleteEmployee(long id) {
-        String sql = "DELETE FROM employees WHERE id = ?";
-        try (Connection conn = this.connection;
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, id);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Funcionário deletado com sucesso.");
-            } else {
-                System.out.println("Nenhum funcionário encontrado com o ID: " + id);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar funcionário: " + e.getMessage(), e);
-        }
-    }
+	        while (resultSet.next()) {
+	            Employee employee = new Employee();
+	            employee.setId(resultSet.getLong("id"));
+	            employee.setName(resultSet.getString("name"));
+	            employee.setEmail(resultSet.getString("email"));
+	            employee.setCpf(resultSet.getString("cpf"));
+	            employee.setPosition(resultSet.getString("position"));
+	            employee.setSalary(resultSet.getDouble("salary"));
+	            employees.add(employee);
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao listar funcionários: " + e.getMessage());
+	    }
+
+	    return employees;
+	}
+
+
 }
