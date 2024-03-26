@@ -74,7 +74,7 @@ public class EmployeeDAO {
         return null;
     }
 
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Long id, Employee employee) {
         String sql = "UPDATE employees SET name = ?, email = ?, cpf = ?, position = ?, salary = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, employee.getName());
@@ -82,7 +82,7 @@ public class EmployeeDAO {
             stmt.setString(3, employee.getCpf());
             stmt.setString(4, employee.getPosition());
             stmt.setDouble(5, employee.getSalary());
-            stmt.setLong(6, employee.getId());
+            stmt.setLong(6, id);
             
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
