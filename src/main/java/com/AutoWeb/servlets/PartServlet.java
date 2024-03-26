@@ -1,14 +1,18 @@
 package com.AutoWeb.servlets;
 
-import com.AutoWeb.dao.PartDAO;
-import com.AutoWeb.entities.Part;
 import java.io.IOException;
-import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.AutoWeb.dao.PartDAO;
+import com.AutoWeb.dao.ServiceOrderDAO;
+import com.AutoWeb.entities.Part;
+import com.AutoWeb.entities.ServiceOrder;
 
 /**
  * Servlet implementation class PartServlet
@@ -16,56 +20,85 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/PartServlet")
 public class PartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private PartDAO partDAO;
-
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
     public PartServlet() {
         super();
-        this.partDAO = new PartDAO();
-    }
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action != null && action.equals("delete")) {
-            deletePart(request, response);
-        } else {
-            listParts(request, response);
-        }
+        // TODO Auto-generated constructor stub
     }
 
-    private void listParts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
-        List<Part> parts = partDAO.getAllParts();
-        request.setAttribute("parts", parts);
-        request.getRequestDispatcher("/WEB-INF/views/parts/list_parts.jsp").forward(request, response);
-    }
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String partIdString = request.getParameter("partId");
+		long partId = Long.parseLong(partIdString);
 
-    private void deletePart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String idStr = request.getParameter("id");
-        if (idStr != null) {
-            try {
-                Long id = Long.valueOf(idStr);
-                partDAO.deletePart(id);
-                response.sendRedirect(request.getContextPath() + "/PartServlet");
-            } catch (NumberFormatException e) {
-                response.sendRedirect(request.getContextPath() + "/PartServlet?error=true");
-            }
-        }
-    }
+		PartDAO partDAO = new PartDAO();
+			
+		Optional<Part> part = partDAO.getPart(partId);
+		
+		if (part.isPresent()) {
+			request.setAttribute("part", part);
+			request.getRequestDispatcher("/user.jsp").forward(request, response);
+		} else {
+			response.sendRedirect("erro.jsp");
+		}
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lógica para adicionar uma nova peça
-        String description = request.getParameter("description");
-        Double value = Double.valueOf(request.getParameter("value"));
-        Integer quantity = Integer.valueOf(request.getParameter("quantity"));
-        Part part = new Part();
-        part.setDescription(description);
-        part.setValue(value);
-        part.setQuantity(quantity);
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String description = request.getParameter("description");
+		Double value = Double.parseDouble(request.getParameter("value"));
+		Integer quantity = Integer.parseInt(request.getParameter("quantity"));
+		
+		Part newPart = new Part();
+		newPart.setDescription(description);
+		newPart.setValue(value);
+		newPart.setQuantity(quantity);
+		
+		PartDAO partDAO = new PartDAO();
+		
+		partDAO.addPart(newPart);
+	}
 
-        partDAO.addPart(part);
-        
-        // Redireciona para a lista de peças após adicionar uma nova
-        response.sendRedirect(request.getContextPath() + "/page/parts/list_parts");
-    }
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String partIdString = request.getParameter("partId");
+		Long partId = Long.parseLong(partIdString);
+		String description = request.getParameter("description");
+		Double value = Double.parseDouble(request.getParameter("value"));
+		Integer quantity = Integer.parseInt(request.getParameter("quantity"));
+		
+		
+		Part updatedPart = new Part();
+		updatedPart.setDescription(description);
+		updatedPart.setValue(value);
+		updatedPart.setQuantity(quantity);
+		
+		PartDAO partDAO = new PartDAO();
+		
+		partDAO.updatePart(partId, updatedPart);
+		request.setAttribute("updatedPart", updatedPart);
+		request.getRequestDispatcher("/order_service_details.jsp").forward(request, response);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String partIdString = request.getParameter("partId");
+		Long partId = Long.parseLong(partIdString);
+		
+		PartDAO partDAO = new PartDAO();
+		partDAO.deletePart(partId);
+	}
+
 }
-
