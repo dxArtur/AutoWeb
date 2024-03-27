@@ -30,10 +30,10 @@ public class EmployeeServlet extends HttpServlet {
             request.getRequestDispatcher("/page/employees/edit_employee").forward(request, response);
         } else if ("delete".equals(action)) {
             long id = Long.parseLong(request.getParameter("id"));
-            employeeDAO.deleteEmployee(id);
+            employeeDAO.deleteEmployeeById(id);
             response.sendRedirect(request.getContextPath() + "/page/employees/list_employees");
         } else {
-            List<Employee> employees = employeeDAO.listAllEmployees();
+            List<Employee> employees = employeeDAO.getAllEmployees();
             request.setAttribute("employees", employees);
             request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp").forward(request, response);
         }
@@ -74,7 +74,7 @@ public class EmployeeServlet extends HttpServlet {
             newEmployee.setPosition(position);
             newEmployee.setSalary(salary);
             
-            employeeDAO.addEmployee(newEmployee);
+            employeeDAO.AddEmployee(newEmployee);
             response.sendRedirect(request.getContextPath() + "/page/employees/list_employees");
         }
     }

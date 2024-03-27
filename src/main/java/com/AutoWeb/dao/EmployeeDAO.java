@@ -17,7 +17,7 @@ public class EmployeeDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 	
-	public void addPart(Employee employee) {
+	public void AddEmployee(Employee employee) {
 		String sql = "INSERT INTO employees (id, name, email, cpf, position, salario) VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -103,6 +103,16 @@ public class EmployeeDAO {
 	    }
 
 	    return employees;
+	}
+
+	public Employee getEmployeeById(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

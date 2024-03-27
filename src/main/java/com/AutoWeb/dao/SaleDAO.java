@@ -59,4 +59,9 @@ public class SaleDAO {
 	        throw new RuntimeException(e);
 	    }
 	}
+
+	public void deleteSale(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
