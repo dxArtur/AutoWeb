@@ -121,5 +121,25 @@ public class UserDAO {
 	        throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage(), e);
 	    }
 	}
+	
+	public boolean isUserExists(String cpf, String email) {
+	    boolean userExists = false;
+	    String sql = "SELECT COUNT(*) FROM users WHERE cpf = ? OR email = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	         
+	        statement.setString(1, cpf);
+	        statement.setString(2, email);
+	        ResultSet resultSet = statement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt(1);
+	            userExists = count > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return userExists;
+	}
+
 }
 
