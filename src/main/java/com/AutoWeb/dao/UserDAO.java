@@ -61,26 +61,30 @@ public class UserDAO {
 		}
 		return Optional.empty();
 	}
-	
-	public  Optional<User> attemphAuth(String email) {
-		String sql = "select * from users where email = ?";
-		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, email);
-			try (ResultSet resultSet = stmt.executeQuery()) {
-				if (resultSet.next()) {
-					User userAttemphAuth = new User();
-					userAttemphAuth.setId(resultSet.getLong("id"));
-					userAttemphAuth.setName(resultSet.getString("name"));
-					userAttemphAuth.setPassword(resultSet.getString("password"));
-					return Optional.of(userAttemphAuth);
-				}
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		return Optional.empty();
+	public Optional<User> attemphAuth(String email) {
+	    String sql = "SELECT * FROM users WHERE email = ?";
+	    try (Connection connection = this.connection;
+	         PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+	        stmt.setString(1, email);
+	        ResultSet resultSet = stmt.executeQuery();
+
+	        if (resultSet.next()) {
+	            User user = new User();
+	            user.setId(resultSet.getLong("id"));
+	            user.setName(resultSet.getString("name"));
+	            user.setEmail(resultSet.getString("email"));
+	            user.setPassword(resultSet.getString("password"));
+	            user.setCpf(resultSet.getString("cpf"));
+	            user.setIsAdmin(resultSet.getBoolean("isadmin"));
+	            return Optional.of(user);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException(e);
+	    }
+	    return Optional.empty();
 	}
+
 	
 	public List<User> listAllUsers() {
 	    List<User> users = new ArrayList<>();
