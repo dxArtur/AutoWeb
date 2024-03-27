@@ -6,50 +6,117 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * Servlet implementation class VehicleServlet
- */
+import com.AutoWeb.dao.VehicleDAO;
+import com.AutoWeb.entities.Vehicle;
+
 @WebServlet("/VehicleServlet")
 public class VehicleServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+    private VehicleDAO vehicleDAO;
+
     public VehicleServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        vehicleDAO = new VehicleDAO();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+        switch (action) {
+            case "getAllVehicles":
+                getAllVehicles(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+        switch (action) {
+            case "addVehicle":
+                addVehicle(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       
+        String action = request.getParameter("action");
+        switch (action) {
+            case "updateVehicle":
+                updateVehicle(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "deleteVehicle":
+                deleteVehicle(request, response);
+                break;
+           
+            default:
+                break;
+        }
+    }
 
+    private void addVehicle(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String plate = request.getParameter("plate");
+        String model = request.getParameter("model");
+        int manufactureYear = Integer.parseInt(request.getParameter("manufactureYear"));
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setPlate(plate);
+        vehicle.setModel(model);
+        vehicle.setManufactureYear(manufactureYear);
+
+        vehicleDAO.addPart(vehicle);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void getAllVehicles(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Vehicle> vehicles = vehicleDAO.getAllVehicles();
+        
+    }
+
+    private void updateVehicle(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String plate = request.getParameter("plate");
+        String model = request.getParameter("model");
+        int manufactureYear = Integer.parseInt(request.getParameter("manufactureYear"));
+
+        Vehicle updatedVehicle = new Vehicle();
+        updatedVehicle.setModel(model);
+        updatedVehicle.setManufactureYear(manufactureYear);
+
+        vehicleDAO.updateVehicleByPlate(plate, updatedVehicle);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void deleteVehicle(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String plate = request.getParameter("plate");
+        vehicleDAO.deleteVehicleByPlate(plate);
+        response.sendRedirect("index.jsp");
+    }
 }
