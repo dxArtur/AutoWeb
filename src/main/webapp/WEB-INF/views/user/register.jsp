@@ -1,45 +1,41 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar - Loja de Autopeças</title>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
+    <title>Cadastro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1>Registrar</h1>
-    </header>
-
-    <div class="welcome-text">
-        <p>Crie sua conta para explorar nossos produtos e serviços.</p>
-    </div>
-
-    <form action="UserServlet" method="post" class="login-container">
-        <div class="input-group">
-            <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
+<div class="container mt-5">
+    <h2>Cadastro</h2>
+    <form action="UserServlet" method="post">
+    	<% if (request.getAttribute("errorMessage") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= request.getAttribute("errorMessage") %>
+                <p class="mt-3">J� tem uma conta registrada? <a href="${pageContext.request.contextPath}/LoginServlet">Login</a></p>
+            </div>
+        <% } %>
+    	<div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <div class="input-group">
-            <input type="text" id="name" name="name" placeholder="Nome Completo" required>
+        <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" required>
         </div>
-        <div class="input-group">
-            <input type="email" id="email" name="email" placeholder="Email" required>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
         </div>
-        <div class="input-group">
-            <input type="password" id="password" name="password" placeholder="Senha" required>
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <div class="form-action">
-            <button type="submit" class="btn">Registrar</button>
-        </div>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
     </form>
-
-    <div class="signup-link">
-        Já tem uma conta? <a href="<%=request.getContextPath()%>/signin">Entrar</a>
-    </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

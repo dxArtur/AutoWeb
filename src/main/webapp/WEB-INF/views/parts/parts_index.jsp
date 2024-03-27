@@ -14,6 +14,7 @@
     <div>
         <a href="${pageContext.request.contextPath}/PartServlet">Ver Lista de Peças</a>
 		<a href="<c:url value='/page/parts/add_part'/>" class="btn">Adicionar Nova Peça</a>
+		<a href="${pageContext.request.contextPath}/Admin.jsp">Listar Peças</a>
     </div>
 </div>
 
