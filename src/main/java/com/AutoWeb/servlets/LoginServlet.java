@@ -14,7 +14,7 @@ import com.AutoWeb.entities.User;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/signin")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,8 +30,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -50,7 +49,8 @@ public class LoginServlet extends HttpServlet {
 		    	 request.getSession().setAttribute("user", user);
 		    	 response.sendRedirect(request.getContextPath()+ "/sucess.jsp");
 	    	 } else {
-	    		 response.sendRedirect(request.getContextPath() + "/erro.jsp");
+	    		 request.setAttribute("mensagemErro", "Usuário não registrado ou senha incorreta.");
+	             request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 	    	 }
 	     } else {
 	    	 response.sendRedirect("erro.jsp");

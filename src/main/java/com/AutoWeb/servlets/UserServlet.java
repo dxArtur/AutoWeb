@@ -31,10 +31,17 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> users = userDAO.listAllUsers();
-        request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/views/users/list_clients.jsp").forward(request, response);
+        String action = request.getParameter("action");
+
+        if (action != null && action.equals("list")) {
+            List<User> users = userDAO.listAllUsers();
+            request.setAttribute("users", users);
+            request.getRequestDispatcher("/WEB-INF/views/users/list_clients.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
+        }
     }
 
 	/**
@@ -82,18 +89,23 @@ public class UserServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-	
-		User newUser = new User();
 		
-		newUser.setCpf(cpf);
-		newUser.setName(name);
-		newUser.setEmail(email);
-		newUser.setPassword(password);
-		
-		UserDAO userDAO = new UserDAO();
-		
-		userDAO.addUser(newUser);
-		response.sendRedirect(request.getContextPath() + "/UserServlet");
+		if (userDAO.isUserExists(cpf, email)) {
+		    request.setAttribute("errorMessage", "Um usuário com este CPF ou email já está cadastrado.");
+		    request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
+		} else {
+			User newUser = new User();
+			
+			newUser.setCpf(cpf);
+			newUser.setName(name);
+			newUser.setEmail(email);
+			newUser.setPassword(password);
+			
+			UserDAO userDAO = new UserDAO();
+			
+			userDAO.addUser(newUser);
+			response.sendRedirect(request.getContextPath() + "/LoginServlet");   
+		}
 	}
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
