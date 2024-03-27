@@ -7,6 +7,7 @@ public class User {
 	private String email;
 	private String password;
 	private String cpf;
+	private boolean isAdmin;
 	
 	public String getCpf() {
 		return cpf;
@@ -38,6 +39,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public boolean getIsAdmin() {
+        return isAdmin;
+    }
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 	
 }
