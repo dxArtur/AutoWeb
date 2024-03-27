@@ -7,7 +7,12 @@ import java.io.IOException;
 
 @WebServlet("/page/*")
 public class PageControllerServlet extends HttpServlet {
-    @Override
+    /**
+	 * 
+	 */
+	//private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         if (path != null) {

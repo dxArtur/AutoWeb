@@ -4,37 +4,39 @@
     <html>
     <head>
     <meta charset="UTF-8">
-    <title>Clientes</title>
+    <title>Ordem de Serviço</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body class="bg-dark text-light">
     
     <div class="container-fluid">
-        <h1 class="mt-4 mb-3 text-light">Clientes</h1>
+        <h1 class="mt-4 mb-3 text-light">Ordens de serviço</h1>
     
         <!-- Botão para adicionar nova peça -->
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#novaPecaModal">Adicionar Nova Peça</button>
+        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#newOrderService">Adicionar ordem de serviço</button>
     
         <!-- Tabela de peças -->
-        <table class="table text-light">
-            <thead>
+        <table class="table text-light ">
+            <thead >
                 <tr>
                     
-                    <th>Cpf</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Ações</th>
+                    <th>Descrição</th>
+                    <th>Placa do veículo</th>
+                    <th>valor</th>
+                    <th>Placa</th>
+                    <th>Cliente</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="costumer" items="${costumers}"></c:forEach>
                 <!-- Exemplo de linha da tabela -->
                 <tr>
                     
-                    <td>123.456.789-00 <c:out value="${costumer.cpf}" /></td>
-                    <td>john doe<c:out value="${costumer.name}" /></td>
-                    <td>johndoe@user.com <c:out value="${costumer.email}" /></td>
+                    <td>Farol dianteiro esquerdo</td>
+                    <td>ABC1234</td>
+                    <td>R$ 150,00</td>
+                    <td>XYZ9876</td>
+                    <td>João da Silva</td>
                     <td>
                         <!-- Botões de ação -->
                         <button class="btn btn-primary btn-sm mr-2">Editar</button>
