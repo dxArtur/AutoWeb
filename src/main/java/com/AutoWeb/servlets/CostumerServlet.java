@@ -6,50 +6,107 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-/**
- * Servlet implementation class CostumerServlet
- */
+import com.AutoWeb.dao.CustomerDAO;
+import com.AutoWeb.entities.Customer;
+
 @WebServlet("/CostumerServlet")
 public class CostumerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+    private CustomerDAO customerDAO;
+
     public CostumerServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        customerDAO = new CustomerDAO();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       
+        String action = request.getParameter("action");
+        switch (action) {
+            case "addCustomer":
+                addCustomer(request, response);
+                break;
+           
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "updateCustomer":
+                updateCustomer(request, response);
+                break;
+           
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "deleteCustomer":
+                deleteCustomer(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
+    private void addCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String cpf = request.getParameter("cpf");
+
+        Customer customer = new Customer();
+        customer.setId(id);
+        customer.setName(name);
+        customer.setEmail(email);
+        customer.setCpf(cpf);
+
+        customerDAO.addPart(customer);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String cpf = request.getParameter("cpf");
+
+        Customer updatedCustomer = new Customer();
+        updatedCustomer.setName(name);
+        updatedCustomer.setEmail(email);
+        updatedCustomer.setCpf(cpf);
+
+        customerDAO.updateCustomerById(id, updatedCustomer);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        customerDAO.deleteCustomerById(id);
+        response.sendRedirect("index.jsp"); 
+    }
 }

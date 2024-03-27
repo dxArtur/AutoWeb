@@ -31,10 +31,10 @@
         <h2>Aqui você encontra:</h2>
         <nav>
             <ul>
-                <li><a href="index.jsp">Seriços</a></li>
-                <li><a href="produtos.jsp">Peças</a></li>
-                <li><a href="servicos.jsp">Reparos</a></li>
-                <li><a href="contato.jsp">Manuntenções</a></li>
+                <li><a>Seriços</a></li>
+                <li><a>Peças</a></li>
+                <li><a>Reparos</a></li>
+                <li><a>Manuntenções</a></li>
             </ul>
         </nav>
     </div>
@@ -54,15 +54,14 @@
 	<main class="content-container">
         <h3>Em que podemos ajudar hoje?</h2>
         <div class="options-container">
-            <i class="fas fa-envelope fa-2x text-danger"></i>
 			<!-- c:url var="exibirPecasURL" value="/exibirPecas.jsp" /-->
-			<a href="${all_parts}" class="options">
-				<h2>Comprar peças</h2>
+			<a href="${signup}" class="options">
+				<h2>Registrar</h2>
 			</a>
             <!-- Adicione mais produtos em destaque conforme necessário -->
             
-            <a class="options">
-                <h2>Novo serviços</h2>
+            <a href="${signin}" class="options">
+                <h2>Login</h2>
                 <!-- Adicione mais serviços conforme necessário -->
             </a>
         </div>
@@ -83,18 +82,14 @@
                         <p>Endereço: Av. Principal, 123 - Centro, Cidade - Estado</p>
                     </div>
                 </div>
-                <div class="social-links">
-                    <a href="https://github.com/seuusuario" target="_blank" class="social-link"><i class="fab fa-github"></i> GitHub</a>
-                    <a href="https://www.linkedin.com/in/seuperfil" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                </div>
                 <hr>
                 <div class="copyright">
                     <p>&copy; 2024 Mais Lab - Daniel Artur front end developer. Todos os direitos reservados.</p>
-                    <a href="https://github.com/seuusuario" target="_blank" class="social-link"><i class="fab fa-github"></i> GitHub</a>
-                    <a href="https://www.linkedin.com/in/seuperfil" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                   
                 </div>
                 <div class="social-links">
-                    
+                    <a href="https://github.com/seuusuario" target="_blank" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/seuperfil" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
                 </div>
             </div>
         </div>

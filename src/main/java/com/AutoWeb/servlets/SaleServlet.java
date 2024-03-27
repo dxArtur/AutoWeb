@@ -7,49 +7,97 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class SaleServlet
- */
+import com.AutoWeb.dao.SaleDAO;
+import com.AutoWeb.entities.Sale;
+
 @WebServlet("/SaleServlet")
 public class SaleServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+    private SaleDAO saleDAO;
+
     public SaleServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        saleDAO = new SaleDAO();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "addSale":
+                addSale(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "updateSale":
+                updateSale(request, response);
+                break;
+            
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        switch (action) {
+            case "deleteSale":
+                deleteSale(request, response);
+                break;
+           
+            default:
+                break;
+        }
+    }
 
+    private void addSale(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        Double value = Double.parseDouble(request.getParameter("value"));
+
+        Sale sale = new Sale();
+        sale.setId(id);
+        sale.setValue(value);
+
+        saleDAO.addSale(sale);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void updateSale(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        Double value = Double.parseDouble(request.getParameter("value"));
+
+        Sale updatedSale = new Sale();
+        updatedSale.setValue(value);
+
+        saleDAO.updateSale(id, updatedSale);
+
+        response.sendRedirect("index.jsp"); 
+    }
+
+    private void deleteSale(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("id"));
+        saleDAO.deleteSale(id);
+        response.sendRedirect("index.jsp"); 
+    }
 }
