@@ -143,4 +143,9 @@ public class PartDAO {
 	
 		return parts;
 	}
+
+	public List<Part> searchPartsByName(String searchQuery) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
