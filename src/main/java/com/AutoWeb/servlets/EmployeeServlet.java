@@ -27,15 +27,24 @@ public class EmployeeServlet extends HttpServlet {
             long id = Long.parseLong(request.getParameter("id"));
             Employee employee = employeeDAO.getEmployeeById(id);
             request.setAttribute("employee", employee);
-            request.getRequestDispatcher("/page/employees/edit_employee").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/employees/edit_employee.jsp").forward(request, response);
         } else if ("delete".equals(action)) {
+        	HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             long id = Long.parseLong(request.getParameter("id"));
             employeeDAO.deleteEmployeeById(id);
-            response.sendRedirect(request.getContextPath() + "/page/employees/list_employees");
-        } else {
             List<Employee> employees = employeeDAO.getAllEmployees();
             request.setAttribute("employees", employees);
-            request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp").forward(request, response);
+            //request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp").forward(request, response);
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/EmployeeServlet");
+        } else {
+        	try {
+                List<Employee> employees = employeeDAO.getAllEmployees();
+                request.setAttribute("employees", employees);
+                request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -43,6 +52,8 @@ public class EmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if ("update".equals(action)) {
+        	HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             long id = Long.parseLong(request.getParameter("id"));
             String name = request.getParameter("name");
             String email = request.getParameter("email");
@@ -59,8 +70,10 @@ public class EmployeeServlet extends HttpServlet {
             employee.setSalary(salary);
             
             employeeDAO.updateEmployee(employee);
-            response.sendRedirect(request.getContextPath() + "/page/employees/list_employees");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/EmployeeServlet");
         } else {
+        	HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String cpf = request.getParameter("cpf");
@@ -75,7 +88,7 @@ public class EmployeeServlet extends HttpServlet {
             newEmployee.setSalary(salary);
             
             employeeDAO.AddEmployee(newEmployee);
-            response.sendRedirect(request.getContextPath() + "/page/employees/list_employees");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/EmployeeServlet");   
         }
     }
 }
