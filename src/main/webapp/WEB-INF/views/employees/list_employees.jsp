@@ -14,6 +14,8 @@
 <div class="container mt-5">
     <h1 class="mb-4">Funcionários</h1>
     <a href="<c:url value='/AddEmployeeServlet'/>" class="btn btn-success mb-3">Adicionar Funcionário</a>
+    <!-- Botão para ir para a página Admin.jsp -->
+    <a href="<c:url value='/adminAccess'/>" class="btn btn-info mb-3">Página Admin</a>
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
