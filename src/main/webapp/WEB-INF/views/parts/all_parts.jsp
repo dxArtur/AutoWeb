@@ -13,6 +13,8 @@
 <div class="container mt-4">
     <h1>Lista de Peças</h1>
     <a href="<c:url value='/AddPartServlet'/>" class="btn btn-success mb-3">Adicionar Nova Peça</a>
+    <!-- Botão para ir para a página Admin.jsp -->
+    <a href="<c:url value='/adminAccess'/>" class="btn btn-info mb-3">Página Admin</a>
     <div class="search-container mb-3">
         <form action="<c:url value='/AllPartsServlet'/>" method="get" class="form-inline">
             <input type="text" id="searchQuery" name="searchQuery" class="form-control mr-2" placeholder="Buscar peça pelo nome...">

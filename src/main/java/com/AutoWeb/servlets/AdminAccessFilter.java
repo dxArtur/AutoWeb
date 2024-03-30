@@ -25,7 +25,7 @@ public class AdminAccessFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         if (session != null && session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");    
+            User user = (User) session.getAttribute("user"); 
             if (user.getIsAdmin()) {
                 chain.doFilter(request, response);
             } else {
