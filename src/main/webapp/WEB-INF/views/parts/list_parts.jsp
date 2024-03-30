@@ -11,7 +11,7 @@
 
 <div class="container">
     <h1>Lista de Peças</h1>
-    <a href="${pageContext.request.contextPath}/page/parts/add_part" class="btn">Adicionar Nova Peça</a>
+    <a href="<c:url value='/AddPartServlet'/>" class="btn btn-success mb-3">Adicionar Nova Peça</a>
     <table>
         <thead>
         <c:if test="${empty parts}">
