@@ -33,7 +33,6 @@
             <label for="password">Senha:</label>
             <input type="password" id="password" name="password" value="${user.password}" required>
         </div>
-        
         <button type="submit">Atualizar</button>
     </form>
 </div>

@@ -10,7 +10,6 @@
 <body>
 <div class="container mt-5">
     <h2>Adicionar Nova Peça</h2>
-
     <form action="${pageContext.request.contextPath}/AllPartsServlet" method="post">
          <input type="hidden" name="action" value="insert">
         <div class="form-group">

@@ -28,10 +28,10 @@
                     <td><c:out value="${user.name}"/></td>
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.cpf}"/></td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/page/clients/edit_client?id=${user.id}" class="btn">Editar</a>
-                        <a href="${pageContext.request.contextPath}/deleteClient?id=${user.id}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este cliente?');">Deletar</a>
-                    </td>
+	                    <td>
+	                        <a href="${pageContext.request.contextPath}/page/clients/edit_client?id=${user.id}" class="btn">Editar</a>
+	                        <a href="${pageContext.request.contextPath}/deleteClient?id=${user.id}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este cliente?');">Deletar</a>
+	                    </td>
                 </tr>
             </c:forEach>
         </tbody>
