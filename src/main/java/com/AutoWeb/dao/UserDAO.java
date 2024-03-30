@@ -76,7 +76,7 @@ public class UserDAO {
 	            user.setEmail(resultSet.getString("email"));
 	            user.setPassword(resultSet.getString("password"));
 	            user.setCpf(resultSet.getString("cpf"));
-	            user.setIsAdmin(resultSet.getBoolean("isadmin"));
+	           
 	            return Optional.of(user);
 	        }
 	    } catch (SQLException e) {

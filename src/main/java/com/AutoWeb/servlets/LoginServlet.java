@@ -37,23 +37,25 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 String email = request.getParameter("email");
-	     String password = request.getParameter("password");
-	     
-	     UserDAO userDAO = new UserDAO();
-	     Optional<User> userAttemphAuth = userDAO.attemphAuth(email);
-	     
-	     if (userAttemphAuth.isPresent()) {
-	    	 User user = userAttemphAuth.get();
-		     if ( password.equals(user.getPassword())) {
-		    	 request.getSession().setAttribute("user", user);
-		    	 response.sendRedirect(request.getContextPath()+ "/sucess.jsp");
-	    	 } else {
-	    		 request.setAttribute("mensagemErro", "Usuário não registrado ou senha incorreta.");
-	             request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
-	    	 }
-	     } else {
-	    	 response.sendRedirect("erro.jsp");
-	     }
+	    String email = request.getParameter("email");
+	    String password = request.getParameter("password");
+
+	    UserDAO userDAO = new UserDAO();
+	    Optional<User> userAttemptAuth = userDAO.attemphAuth(email);
+
+	    if (userAttemptAuth.isPresent()) {
+	        User user = userAttemptAuth.get();
+	        if (password.equals(user.getPassword())) {
+	            request.getSession().setAttribute("user", user);
+	            response.sendRedirect(request.getContextPath() + "/dashboard.jsp"); // Redireciona para a nova página de dashboard após login bem-sucedido
+	        } else {
+	            request.setAttribute("mensagemErro", "Senha incorreta.");
+	            request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+	        }
+	    } else {
+	        request.setAttribute("mensagemErro", "Email não registrado.");
+	        
+	        request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+	    }
 	}
 }
