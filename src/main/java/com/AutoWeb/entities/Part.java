@@ -8,7 +8,18 @@ public class Part {
 	private Double value;
 	private Integer quantity;
 	
-	
+    public Part(String description, Double value, Integer quantity) {
+        this.description = description;
+        this.value = value;
+        this.quantity = quantity;
+    }
+
+    public Part(Long id, String description, Double value, Integer quantity) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+        this.quantity = quantity;
+    }
 	
 	public Long getId() {
 		return id;
