@@ -22,7 +22,7 @@
                     <a class="nav-link" href="<c:url value='/EmployeeServlet'/>">Gerenciar Funcionários</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value='/PartServlet'/>">Gerenciar Peças</a>
+                    <a class="nav-link" href="<c:url value='/AllPartsServlet'/>">Gerenciar Peças</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value='/VehicleServlet'/>">Gerenciar Veículos</a>

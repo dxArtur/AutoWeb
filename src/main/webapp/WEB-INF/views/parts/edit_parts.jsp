@@ -3,28 +3,34 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Adicionar Nova Peça</title>
+    <title>Editar Peça</title>
     <!-- Inclusão do CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+
 <div class="container mt-5">
-    <h2>Adicionar Nova Peça</h2>
-    <form action="${pageContext.request.contextPath}/AllPartsServlet" method="post">
-         <input type="hidden" name="action" value="insert">
+    <h2>Editar Peça</h2>
+
+    <!-- Substitua a ação e os métodos conforme necessário -->
+    <form action="${pageContext.request.contextPath}/AllPartsServlet?action=update" method="post">
+        <!-- Campo oculto para passar o ID da peça que está sendo editada -->
+        <input type="hidden" name="id" value="${part.id}">
+
         <div class="form-group">
             <label for="description">Descrição:</label>
-            <input type="text" id="description" name="description" required class="form-control">
+            <input type="text" id="description" name="description" value="${part.description}" required class="form-control">
         </div>
         <div class="form-group">
             <label for="value">Valor:</label>
-            <input type="number" id="value" name="value" step="0.01" required class="form-control">
+            <input type="number" id="value" name="value" value="${part.value}" step="0.01" required class="form-control">
         </div>
         <div class="form-group">
             <label for="quantity">Quantidade:</label>
-            <input type="number" id="quantity" name="quantity" required class="form-control">
+            <input type="number" id="quantity" name="quantity" value="${part.quantity}" required class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Adicionar Peça</button>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <a href="${pageContext.request.contextPath}/AllPartsServlet" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 

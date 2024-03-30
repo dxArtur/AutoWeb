@@ -37,8 +37,6 @@
     </div>
 </nav>
 
-
-
 <div class="container">
     <h1 class="mt-4 mb-3">Editar Cliente</h1>
     <form action="${pageContext.request.contextPath}/UserServlet" method="post">
