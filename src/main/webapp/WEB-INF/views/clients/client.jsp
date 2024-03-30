@@ -1,4 +1,4 @@
-<!-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> -->
     <!DOCTYPE html>
     <html>
@@ -15,6 +15,8 @@
     
         <!-- Botão para adicionar nova peça -->
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#novaPecaModal">Adicionar Nova Peça</button>
+    
+        <!-- Tabela de peças -->
         <table class="table text-light">
             <thead>
                 <tr>
