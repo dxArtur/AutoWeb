@@ -31,13 +31,7 @@ public class IndexPartsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PartDAO partDAO = new PartDAO();
-        List<Part> parts = partDAO.getAllParts();
         
-
-
-        request.setAttribute("parts", parts);
-        request.getRequestDispatcher("/WEB-INF/views/parts/all_parts.jsp").forward(request, response);
 	}
 
 	/**
