@@ -53,7 +53,11 @@ public class SchemaSetup {
       //Criar tabela vendas
         String createSalesTable = "CREATE TABLE IF NOT EXISTS sales ("
                 + "id SERIAL PRIMARY KEY,"
-                + "value DECIMAL(10, 2) NOT NULL"
+                + "value DECIMAL(10, 2) NOT NULL,"
+                + "customer_cpf VARCHAR(14),"
+                + "id_items BIGINT,"
+                + "CONSTRAINT fk_customer FOREIGN KEY (customer_cpf) REFERENCES Customers(cpf),"
+                + "CONSTRAINT fk_item FOREIGN KEY (id_items) REFERENCES parts(id)"
                 + ")";
         statement.execute(createSalesTable);
         System.out.println("Tabela vendas criada com sucesso.");
