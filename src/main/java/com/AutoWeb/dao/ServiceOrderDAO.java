@@ -19,26 +19,23 @@ public class ServiceOrderDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 	
-	public void addServiceOrder(ServiceOrder serviceOrder) {
-		String sql = "INSERT INTO service_order (id, value, plate_vehicle, costumer_cpf) VALUES (?, ?, ?, ?)";
-		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, serviceOrder.getId());
-			stmt.setDouble(2, serviceOrder.getValue());
-			stmt.setString(3, serviceOrder.getPlateVehicle());
-			stmt.setString(4, serviceOrder.getCpfCostumer());
-			stmt.setString(5, serviceOrder.getDescription());
-			
-			int rowsInserted = stmt.executeUpdate(); 
-	        if (rowsInserted > 0) {
-	        	System.out.println("Ordem de serviço adicionada com sucesso.");
-	        } else {
-	            System.out.println("Falha ao adicionar rdem de serviço.");
+	 public void addServiceOrder(ServiceOrder serviceOrder) {
+	        String sql = "INSERT INTO service_order (description, value) VALUES (?, ?)";
+	        try {
+	            PreparedStatement stmt = connection.prepareStatement(sql);
+	            stmt.setString(1, serviceOrder.getDescription());
+	            stmt.setDouble(2, serviceOrder.getValue());
+
+	            int rowsInserted = stmt.executeUpdate();
+	            if (rowsInserted > 0) {
+	                System.out.println("Ordem de serviço adicionada com sucesso.");
+	            } else {
+	                System.out.println("Falha ao adicionar ordem de serviço.");
+	            }
+	        } catch (SQLException e) {
+	            throw new RuntimeException(e);
 	        }
-		} catch (SQLException e){
-			throw new RuntimeException(e);
-		}
-	}
+	    }
 	
 	public Optional<ServiceOrder> getServiceOrder(Long id) {
 		ServiceOrder serviceOrder = null;
@@ -145,4 +142,5 @@ public class ServiceOrderDAO {
 	
 		return servicesOrder;
 	}
+	
 }

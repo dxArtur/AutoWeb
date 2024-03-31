@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-import com.AutoWeb.dao.VehicleDAO;
 import com.AutoWeb.entities.Vehicle;
+import com.AutoWeb.dao.VehicleDAO;
+
 
 @WebServlet("/VehicleServlet")
 public class VehicleServlet extends HttpServlet {
@@ -29,11 +30,19 @@ public class VehicleServlet extends HttpServlet {
             case "getAllVehicles":
                 getAllVehicles(request, response);
                 break;
-            
+            // Adicione outras ações aqui, se necessário
             default:
                 break;
         }
     }
+
+    private void getAllVehicles(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Vehicle> vehicles = vehicleDAO.getAllVehicles(); // Implemente este método no VehicleDAO para buscar todos os veículos
+        request.setAttribute("vehicles", vehicles);
+        request.getRequestDispatcher("listVehicles.jsp").forward(request, response);
+    }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -78,25 +87,31 @@ public class VehicleServlet extends HttpServlet {
 
     private void addVehicle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String plate = request.getParameter("plate");
-        String model = request.getParameter("model");
-        int manufactureYear = Integer.parseInt(request.getParameter("manufactureYear"));
+    String plate = request.getParameter("plate");
+    String model = request.getParameter("model");
+    int manufactureYear = 0;
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.setPlate(plate);
-        vehicle.setModel(model);
-        vehicle.setManufactureYear(manufactureYear);
-
-        vehicleDAO.addPart(vehicle);
-
-        response.sendRedirect("index.jsp"); 
+   
+    String manufactureYearParam = request.getParameter("manufactureyear");
+    if (manufactureYearParam != null && !manufactureYearParam.isEmpty()) {
+        manufactureYear = Integer.parseInt(manufactureYearParam);
+    } else {
+      
     }
 
-    private void getAllVehicles(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        List<Vehicle> vehicles = vehicleDAO.getAllVehicles();
-        
-    }
+    Vehicle vehicle = new Vehicle();
+    vehicle.setPlate(plate);
+    vehicle.setModel(model);
+    vehicle.setManufactureYear(manufactureYear);
+
+    vehicleDAO.addPart(vehicle);
+
+    response.sendRedirect("index.jsp"); 
+}
+
+
+
+
 
     private void updateVehicle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

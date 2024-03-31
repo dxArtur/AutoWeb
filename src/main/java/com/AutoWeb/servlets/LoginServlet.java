@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 	        User user = userAttemptAuth.get();
 	        if (password.equals(user.getPassword())) {
 	            request.getSession().setAttribute("user", user);
-	            response.sendRedirect(request.getContextPath() + "/dashboard.jsp"); // Redireciona para a nova página de dashboard após login bem-sucedido
+	            response.sendRedirect(request.getContextPath() + "/dashboard.jsp"); 
 	        } else {
 	            request.setAttribute("mensagemErro", "Senha incorreta.");
 	            request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
