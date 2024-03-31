@@ -1,7 +1,10 @@
 package com.AutoWeb.servlets;
 
 import com.AutoWeb.dao.EmployeeDAO;
+
 import com.AutoWeb.entities.Employee;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +40,12 @@ public class EmployeeServlet extends HttpServlet {
             request.setAttribute("employees", employees);
             //request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp").forward(request, response);
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/EmployeeServlet");
+        }else if ("search".equals(action)) {
+        	String query = request.getParameter("searchQuery");
+            List<Employee> employees = employeeDAO.searchEmployeesByName(query);
+            request.setAttribute("employees", employees);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/employees/list_employees.jsp");
+            dispatcher.forward(request, response);
         } else {
         	try {
                 List<Employee> employees = employeeDAO.getAllEmployees();
