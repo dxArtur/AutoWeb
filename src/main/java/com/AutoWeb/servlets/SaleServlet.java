@@ -44,10 +44,8 @@ public class SaleServlet extends HttpServlet {
             throws ServletException, IOException {
     	
         String action = request.getParameter("action");
-        System.out.println(action);
         switch (action) {
             case "addSale":
-            	System.out.println("oi");
                 addSale(request, response);
                 break;
             
@@ -94,52 +92,51 @@ public class SaleServlet extends HttpServlet {
         String valueParam = request.getParameter("value");
         String quantityParam = request.getParameter("quantity");
         
-        System.out.println(idParam);
-        System.out.println(valueParam);
-        System.out.println(quantityParam);
-        
-        
         if (idParam == null || valueParam == null || quantityParam == null) {
             response.sendRedirect("error.jsp");
             return;
         }
         
-        System.out.println("oi");
-        
         try {
         	Long id = Long.parseLong(request.getParameter("id"));
             Double value = Double.parseDouble(request.getParameter("value"));
             Integer quantity = Integer.parseInt(request.getParameter("quantity"));
+            Double valueTotal = quantity * value;
             
-        	Sale sale = new Sale();
-            sale.setId(id);
-            sale.setValue(value);
-            
-            value = quantity * value;
-
-            saleDAO.addSale(sale);
-            System.out.println(sale);
             
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             
-            if (user!= null) {
+            String verifyCpf =user.getCpf();
+            
+            CustomerDAO customerDAO = new CustomerDAO();
+            Customer customer = customerDAO.getCustomer(verifyCpf);
+            
+            if (customer == null) {
             	Long userId = user.getId();
             	String userName = user.getName();
                 String userEmail = user.getEmail();
                 String userCpf = user.getCpf();
                 
-                
-                Customer newCustomer = new Customer();
+            	Customer newCustomer = new Customer();
                 newCustomer.setId(userId);
                 newCustomer.setName(userName);
                 newCustomer.setEmail(userEmail);
                 newCustomer.setCpf(userCpf);
-                
-                CustomerDAO customerDAO = new CustomerDAO();
-                customerDAO.addPart(newCustomer);
-                
+            	customerDAO.addCustomer(newCustomer);
             }
+            
+        	SaleDAO saleDAO = new SaleDAO();
+            
+            Sale sale = new Sale();
+            sale.setValue(valueTotal);
+            sale.setIdItems(id);
+            sale.setCustomerCpf(user);
+            
+            saleDAO.addSale(sale);
+            
+            
+            
 
 
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/SaleServlet");

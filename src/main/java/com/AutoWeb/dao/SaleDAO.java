@@ -15,20 +15,15 @@ public class SaleDAO {
 	}
 	
 	public void addSale(Sale sale) {
-		String sql = "INSERT INTO sales (value) VALUES ( ?)";
+		String sql = "INSERT INTO sales (value, customer_cpf, id_items) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setDouble(1, sale.getValue());
+			stmt.setString(2, sale.getCustomerCpf());
+			stmt.setLong(3, sale.getIdItems());
 			int rowsInserted = stmt.executeUpdate();
 	        if (rowsInserted > 0) {
 	            System.out.println("Venda adicionada com sucesso.");
-	            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-	                if (generatedKeys.next()) {
-	                    sale.setId(generatedKeys.getLong(1));
-	                } else {
-	                    throw new SQLException("Falha ao adicionar venda, nenhum ID obtido.");
-	                }
-	            }
 	        } else {
 	            System.out.println("Falha ao adicionar venda.");
 	        }
