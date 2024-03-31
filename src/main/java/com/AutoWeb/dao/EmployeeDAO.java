@@ -159,6 +159,31 @@ public class EmployeeDAO {
         }
     }
 
+	public List<Employee> searchEmployeesByName(String query) {
+	    List<Employee> employees = new ArrayList<>();
+	    String sql = "SELECT * FROM employees WHERE name LIKE ?";
+
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+	        stmt.setString(1, "%" + query + "%");
+	        ResultSet rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            Employee employee = new Employee();
+	            employee.setId(rs.getLong("id"));
+	            employee.setName(rs.getString("name"));
+	            employee.setEmail(rs.getString("email"));
+	            employee.setCpf(rs.getString("cpf"));
+	            employee.setPosition(rs.getString("position"));
+	            employee.setSalary(rs.getDouble("salary"));
+	            employees.add(employee);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao buscar funcionários: " + e.getMessage(), e);
+	    }
+
+	    return employees;
+	}
+
 
 
 }

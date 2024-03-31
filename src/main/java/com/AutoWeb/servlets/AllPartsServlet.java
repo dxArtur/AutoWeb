@@ -56,7 +56,7 @@ public class AllPartsServlet extends HttpServlet {
     private void listParts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Part> parts = partDAO.getAllParts();
         request.setAttribute("parts", parts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/parts/all_parts.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/parts/parts_admin.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -99,7 +99,7 @@ public class AllPartsServlet extends HttpServlet {
         String query = request.getParameter("searchQuery");
         List<Part> parts = partDAO.searchPartsByName(query);
         request.setAttribute("parts", parts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/parts/all_parts.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/parts/parts_admin.jsp");
         dispatcher.forward(request, response);
     }
 }

@@ -165,8 +165,26 @@ public class PartDAO {
 		return parts;
 	}
 
-	public List<Part> searchPartsByName(String searchQuery) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Part> searchPartsByName(String query) {
+	    List<Part> parts = new ArrayList<>();
+	    String sql = "SELECT * FROM parts WHERE description LIKE ?";
+
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+	        stmt.setString(1, "%" + query + "%");
+	        ResultSet rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            Part part = new Part(null, sql, null, null);
+	            part.setId(rs.getLong("id"));
+	            part.setDescription(rs.getString("description"));
+	            part.setValue(rs.getDouble("value"));
+	            part.setQuantity(rs.getInt("quantity"));
+	            parts.add(part);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao buscar peças por nome: " + e.getMessage(), e);
+	    }
+
+	    return parts;
 	}
 }

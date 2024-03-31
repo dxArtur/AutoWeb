@@ -15,6 +15,13 @@
     <a href="<c:url value='/AddEmployeeServlet'/>" class="btn btn-success mb-3">Adicionar Funcionário</a>
     <!-- Botão para ir para a página Admin.jsp -->
     <a href="<c:url value='/adminAccess'/>" class="btn btn-info mb-3">Página Admin</a>
+    <div class="search-container mb-3">
+        <form action="<c:url value='/EmployeeServlet'/>" method="get" class="form-inline">
+            <input type="hidden" name="action" value="search">
+            <input type="text" id="searchQuery" name="searchQuery" class="form-control mr-2" placeholder="Buscar peça pelo nome...">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </form>
+    </div>
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
