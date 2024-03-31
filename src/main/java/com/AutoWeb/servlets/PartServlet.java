@@ -42,7 +42,7 @@ public class PartServlet extends HttpServlet {
 		
 		if (part.isPresent()) {
 			request.setAttribute("part", part);
-			request.getRequestDispatcher("/user.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/parts/list_parts.jsp").forward(request, response);
 		} else {
 			response.sendRedirect("erro.jsp");
 		}

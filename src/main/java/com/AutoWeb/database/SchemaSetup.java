@@ -13,6 +13,7 @@ public class SchemaSetup {
 				+ "    name VARCHAR(255) NOT NULL,"
 				+ "    email VARCHAR(255) NOT NULL,"
 				+ "    password VARCHAR(255) NOT NULL,"
+				+ "    isadmin BOOLEAN DEFAULT FALSE,"
 				+ "    cpf VARCHAR(14) NOT NULL UNIQUE"
 				+ ")";
         statement.execute(createUserTable);
