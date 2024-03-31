@@ -56,7 +56,7 @@ public class PartServlet extends HttpServlet {
 		Double value = Double.parseDouble(request.getParameter("value"));
 		Integer quantity = Integer.parseInt(request.getParameter("quantity"));
 		
-		Part newPart = new Part();
+		Part newPart = new Part(null, description, value, quantity);
 		newPart.setDescription(description);
 		newPart.setValue(value);
 		newPart.setQuantity(quantity);

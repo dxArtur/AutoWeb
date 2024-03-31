@@ -22,13 +22,12 @@ public class PartDAO {
 	}
 	
 	public void addPart(Part part) {
-		String sql = "INSERT INTO parts (id,  description, value, quantity) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO parts (description, value, quantity) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, part.getId());
-			stmt.setString(2, part.getDescription());
-			stmt.setDouble(3, part.getValue());
-			stmt.setInt(4, part.getQuantity());
+			stmt.setString(1, part.getDescription());
+			stmt.setDouble(2, part.getValue());
+			stmt.setInt(3, part.getQuantity());
 		
 			int rowsInserted = stmt.executeUpdate(); 
 	        if (rowsInserted > 0) {
@@ -49,7 +48,7 @@ public class PartDAO {
 			stmt.setLong(1, id);
 			ResultSet resultSet = stmt.executeQuery();
 			if(resultSet.next()) {
-				Part part = new Part();
+				Part part = new Part(id, sql, null, null);
 				part.setId(resultSet.getLong("id"));
 				part.setDescription(resultSet.getString("id"));
 				part.setValue(resultSet.getDouble("value"));
@@ -63,22 +62,44 @@ public class PartDAO {
 		
 		return Optional.empty();
 	}
+	public Part getPartById(Long id) {
+        Part part = null;
+        String sql = "SELECT * FROM parts WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                part = new Part(
+                    rs.getLong("id"),
+                    rs.getString("description"),
+                    rs.getDouble("value"),
+                    rs.getInt("quantity")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a peça pelo ID: " + e.getMessage(), e);
+        }
+        return part;
+    }
 	
-	public void updatePart(Long id, Part updatedPart) {
-		String sql = "UPDATE parts SET description = ? value = ? WHERE id = ?";
-		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, updatedPart.getDescription());
-			stmt.setDouble(2, updatedPart.getValue());
-			stmt.setLong(3, id);
-			int rowsInserted = stmt.executeUpdate();
-			if (rowsInserted == 0) {
-				throw new RuntimeException("Nenhuma peça encontrada sob o id");
-			}
-		}catch (SQLException e) {
-	        throw new RuntimeException(e);
-	    }
-	}
+	public void updatePart(Part part) {
+        String sql = "UPDATE parts SET description = ?, value = ?, quantity = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, part.getDescription());
+            stmt.setDouble(2, part.getValue());
+            stmt.setInt(3, part.getQuantity());
+            stmt.setLong(4, part.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Peça atualizada com sucesso.");
+            } else {
+                System.out.println("Falha ao atualizar peça. Nenhuma peça encontrada com o ID: " + part.getId());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar peça: " + e.getMessage(), e);
+        }
+    }
 	
 	public void deletePart(Long id) {
 		String sql = "DELETE FROM parts WHERE id = ?";
@@ -105,7 +126,7 @@ public class PartDAO {
 			ResultSet resultSet = stmt.executeQuery();
 			
 			while (resultSet.next()) {
-				Part part = new Part();
+				Part part = new Part(null, sql, null, null);
 				part.setId(resultSet.getLong("id"));
 				part.setDescription(resultSet.getString("description"));
 				part.setValue(resultSet.getDouble("value"));
@@ -129,7 +150,7 @@ public class PartDAO {
 			ResultSet resultSet = stmt.executeQuery();
 			
 			while (resultSet.next()) {
-				Part part = new Part();
+				Part part = new Part(null, null, null);
 				part.setId(resultSet.getLong("id"));
 				part.setDescription(resultSet.getString("description"));
 				part.setValue(resultSet.getDouble("value"));
