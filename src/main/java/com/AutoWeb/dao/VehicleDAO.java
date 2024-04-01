@@ -20,7 +20,7 @@ public class VehicleDAO {
     }
 
     public void addVehicle(Vehicle vehicle) {
-        String sql = "INSERT INTO vehicles (plate, model, manufactureyear) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO vehicles (plate, model, manufacture_year) VALUES (?, ?, ?)";
         try (Connection conn = new ConnectionFactory().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, vehicle.getPlate());
