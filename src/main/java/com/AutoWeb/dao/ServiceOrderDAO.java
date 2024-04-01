@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.entities.Vehicle;
 
 
 public class ServiceOrderDAO {
@@ -30,12 +31,22 @@ public class ServiceOrderDAO {
 	        if (rowsInserted > 0) {
 	        	System.out.println("Ordem de serviço adicionada com sucesso.");
 	        } else {
-	            System.out.println("Falha ao adicionar rdem de serviço.");
+	            stmt.setString(3, null); 
 	        }
-		} catch (SQLException e){
-			throw new RuntimeException(e);
-		}
+	        stmt.setString(4, serviceOrder.getCpfCostumer());
+	        stmt.setString(5, serviceOrder.getDescription());
+	        
+	        int rowsInserted = stmt.executeUpdate(); 
+	        if (rowsInserted > 0) {
+	            System.out.println("Ordem de serviço adicionada com sucesso.");
+	        } else {
+	            System.out.println("Falha ao adicionar ordem de serviço.");
+	        }
+	    } catch (SQLException e){
+	        throw new RuntimeException(e);
+	    }
 	}
+
 	
 	public Optional<ServiceOrder> getServiceOrder(Long id) {
 		ServiceOrder serviceOrder = null;

@@ -2,6 +2,7 @@ package com.AutoWeb.entities;
 
 public class ServiceOrder {
 
+
 	
 	private Long id;
 	private String description;
@@ -28,8 +29,3 @@ public class ServiceOrder {
 	}
 	}
 	
-	
-	//implementar data?
-	
-	//cliente?
-

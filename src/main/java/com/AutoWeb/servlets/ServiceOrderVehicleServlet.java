@@ -120,11 +120,7 @@ public class ServiceOrderVehicleServlet extends HttpServlet {
             Optional<Vehicle> verifyVehicle = vehicleDAO.getVehicleByPlate(plateParam);
             
             if (verifyVehicle.isEmpty()) {
-            	Vehicle vehicle = new Vehicle();
-                vehicle.setManufactureYear(year);
-                vehicle.setPlate(plateParam);
-                vehicle.setModel(modelParam);
-                
+            	Vehicle vehicle = new Vehicle(plateParam, modelParam, year);
                 vehicleDAO.addVehicle(vehicle);
             }
             
