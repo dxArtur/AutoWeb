@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.entities.Vehicle;
 
 
 public class ServiceOrderDAO {
@@ -20,25 +21,30 @@ public class ServiceOrderDAO {
 	}
 	
 	public void addServiceOrder(ServiceOrder serviceOrder) {
-		String sql = "INSERT INTO service_order (id, value, plate_vehicle, costumer_cpf) VALUES (?, ?, ?, ?)";
-		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, serviceOrder.getId());
-			stmt.setDouble(2, serviceOrder.getValue());
-			stmt.setString(3, serviceOrder.getPlateVehicle());
-			stmt.setString(4, serviceOrder.getCpfCostumer());
-			stmt.setString(5, serviceOrder.getDescription());
-			
-			int rowsInserted = stmt.executeUpdate(); 
-	        if (rowsInserted > 0) {
-	        	System.out.println("Ordem de serviço adicionada com sucesso.");
+	    String sql = "INSERT INTO service_order (id, value, plate_vehicle, costumer_cpf) VALUES (?, ?, ?, ?)";
+	    try {
+	        PreparedStatement stmt = connection.prepareStatement(sql);
+	        stmt.setLong(1, serviceOrder.getId());
+	        stmt.setDouble(2, serviceOrder.getValue());
+	        if (serviceOrder.getVehicle() != null) { 
+	            stmt.setString(3, serviceOrder.getVehicle().getPlate());
 	        } else {
-	            System.out.println("Falha ao adicionar rdem de serviço.");
+	            stmt.setString(3, null); 
 	        }
-		} catch (SQLException e){
-			throw new RuntimeException(e);
-		}
+	        stmt.setString(4, serviceOrder.getCpfCostumer());
+	        stmt.setString(5, serviceOrder.getDescription());
+	        
+	        int rowsInserted = stmt.executeUpdate(); 
+	        if (rowsInserted > 0) {
+	            System.out.println("Ordem de serviço adicionada com sucesso.");
+	        } else {
+	            System.out.println("Falha ao adicionar ordem de serviço.");
+	        }
+	    } catch (SQLException e){
+	        throw new RuntimeException(e);
+	    }
 	}
+
 	
 	public Optional<ServiceOrder> getServiceOrder(Long id) {
 		ServiceOrder serviceOrder = null;
