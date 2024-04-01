@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <title>Lista de Peças</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
-</head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -113,24 +111,6 @@
         </table>
     </div>
     
-    
-   <!--  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var formCompraPeca = document.getElementById('formCompraPeca');
-
-        formCompraPeca.addEventListener('submit', function(event) {
-            var quantidadeInput = document.getElementById('quantidade');
-            var quantidadeDisponivel = document.getElementById('quantity');
-            console.log(quantidadeDisponivel)
-            var quantidade = parseInt(quantidadeInput.value);
-
-            if (isNaN(quantidade) || quantidade <= 0 || quantidade <= quantidadeDisponivel) {
-                alert('Por favor, insira uma quantidade válida.');
-                event.preventDefault(); // Impede o envio do formulário
-            }
-        });
-    	});
-	</script> -->
     
 
     
