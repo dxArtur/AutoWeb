@@ -85,9 +85,10 @@
             </div>
             <div class="modal-body text-dark">
                 <!-- Formulário para comprar peça -->
-                <form class="text-dark" action="${pageContext.request.contextPath}/ServiceOrderServlet" method="post">
+                <form class="text-dark" action="${pageContext.request.contextPath}/ServiceOrderVehicleServlet" method="post">
                     <input type="hidden" name="action" value="addServiceOrderVehicle">
                     <input type="hidden" name="id" value="${serviceOrder.id}">
+                    <input type="hidden" name="description" value="${serviceOrder.description}">
 					<input type="hidden" name="value" value="${serviceOrder.value}">
                     
                     <div class="form-group">
@@ -100,16 +101,16 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Placa: </label>
-                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Digite a quantidade disponível">
+                        <input type="text" class="form-control" name="plate" id="plate" placeholder="Digite a placa do seu carro">
                     </div>
                     
                     <div class="form-group">
                         <label for="quantity">Ano: </label>
-                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Digite a quantidade disponível">
+                        <input type="number" class="form-control" name="manufactureYear" id="manufactureYear" placeholder="Digite o ano do seu carro">
                     </div>
                     <div class="form-group">
                         <label for="quantity">modelo: </label>
-                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Digite a quantidade disponível">
+                        <input type="text" class="form-control" name="model" id="model" placeholder="Digite o modelo do seu carro">
                     </div>
                     <button type="submit"  class="btn btn-success" >Confirmar</button>
                     
