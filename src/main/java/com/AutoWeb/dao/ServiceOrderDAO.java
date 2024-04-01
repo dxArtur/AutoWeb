@@ -20,14 +20,11 @@ public class ServiceOrderDAO {
 	}
 	
 	public void addServiceOrder(ServiceOrder serviceOrder) {
-		String sql = "INSERT INTO service_order (id, value, plate_vehicle, costumer_cpf) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO service_order (description, value ) VALUES (?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, serviceOrder.getId());
+			stmt.setString(1, serviceOrder.getDescription());
 			stmt.setDouble(2, serviceOrder.getValue());
-			stmt.setString(3, serviceOrder.getPlateVehicle());
-			stmt.setString(4, serviceOrder.getCpfCostumer());
-			stmt.setString(5, serviceOrder.getDescription());
 			
 			int rowsInserted = stmt.executeUpdate(); 
 	        if (rowsInserted > 0) {
@@ -42,7 +39,7 @@ public class ServiceOrderDAO {
 	
 	public Optional<ServiceOrder> getServiceOrder(Long id) {
 		ServiceOrder serviceOrder = null;
-		String sql = "select * from service_order where email = ?";
+		String sql = "select * from service_order where id = ?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setLong(1, id);
@@ -52,8 +49,6 @@ public class ServiceOrderDAO {
 					serviceOrder.setId(resultSet.getLong("id"));
 					serviceOrder.setDescription(resultSet.getString("description"));
 					serviceOrder.setValue(resultSet.getDouble("value"));
-					serviceOrder.setDescription(resultSet.getString("costumer_cpf"));
-					serviceOrder.setDescription(resultSet.getString("vehicle_plate"));
 					return Optional.of(serviceOrder);
 				}
 			}

@@ -18,8 +18,8 @@ public class VehicleDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 	
-	public void addPart(Vehicle vehicle) {
-		String sql = "INSERT INTO vehicles (plate, model, manufactureYear) VALUES (?, ?, ?)";
+	public void addVehicle(Vehicle vehicle) {
+		String sql = "INSERT INTO vehicles (plate, model, manufacture_year) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, vehicle.getPlate());
@@ -50,7 +50,7 @@ public class VehicleDAO {
 	            Vehicle vehicle = new Vehicle();
 	            vehicle.setPlate(resultSet.getString("plate"));
 	            vehicle.setModel(resultSet.getString("model"));
-	            vehicle.setManufactureYear(resultSet.getInt("manufactureYear"));
+	            vehicle.setManufactureYear(resultSet.getInt("manufacture_year"));
 	            return Optional.of(vehicle);
 	        }
 	        
