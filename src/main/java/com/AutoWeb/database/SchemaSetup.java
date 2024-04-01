@@ -99,9 +99,9 @@ public class SchemaSetup {
         //ordem de serviço de veiculos
         
         String createServiceOrderVehicleTable = "CREATE TABLE IF NOT EXISTS service_order_vehicle ("
-                + "order_id BIGINT NOT NULL,"
+        		+ "id SERIAL PRIMARY KEY,"
+        		+ "order_id BIGINT NOT NULL,"
                 + "vehicle_plate VARCHAR(20) NOT NULL,"
-                + "PRIMARY KEY (order_id, vehicle_plate),"
                 + "FOREIGN KEY (order_id) REFERENCES service_order(id),"
                 + "FOREIGN KEY (vehicle_plate) REFERENCES vehicles(plate)"
                 + ")";

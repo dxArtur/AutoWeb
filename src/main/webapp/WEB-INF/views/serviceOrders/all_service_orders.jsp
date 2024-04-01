@@ -58,57 +58,64 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${servicesOrder}" var="serviceOrder" >
-                <tr>
-                    <td><c:out value="${serviceOrder.id}"/></td>
-                    <td><c:out value="${serviceOrder.description}"/></td>
-                    <td><c:out value="${serviceOrder.value}"/></td>
-                    <td>
-                        <button data-toggle="modal" data-target="#contratarOrdemServico${serviceOrder.id}" class="btn btn-success shadow-sm" data-id="${serviceOrder.id}" data-descricao="${serviceOrder.description}" data-valor="${serviceOrder.value}">Contratar</button>
-                    </td>
-                </tr>
-
-                <!-- Modal para contratar ordem de serviço -->
-                <div class="modal fade" id="contratarOrdemServico${serviceOrder.id}" tabindex="-1" role="dialog" aria-labelledby="contratarOrdemServicoModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" id="contratarOrdemServicoModal${serviceOrder.id}" role="document">
-                        <div class="modal-content text-dark">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="contratarOrdemServicoModal${serviceOrder.id}">Contratar ordem de serviço</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <!-- Formulário para contratar ordem de serviço -->
-                            <div class="modal-body text-dark">
-                                <form class="text-dark" action="${pageContext.request.contextPath}/ServiceOrderServlet" method="post">
-                                    <input type="hidden" name="action" value="addServiceOrderVehicle">
-                                    <input type="hidden" name="id" value="${serviceOrder.id}">
-                                    <input type="hidden" name="value" value="${serviceOrder.value}">
-                                    
-                                    <div class="form-group">
-                                        <label for="descricao">Descrição: ${serviceOrder.description}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="valor">Valor: ${serviceOrder.value}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="placa">Placa:</label>
-                                        <input type="text" class="form-control" name="plate" id="placa" placeholder="Digite a placa do veículo">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="ano">Ano:</label>
-                                        <input type="number" class="form-control" name="manufactureYear" id="ano" placeholder="Digite o ano de fabricação do veículo">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modelo">Modelo:</label>
-                                        <input type="text" class="form-control" name="model" id="modelo" placeholder="Digite o modelo do veículo">
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-success">Confirmar</button>
-                                </form>
-                            </div>
-                        </div>
+                <c:forEach items="${servicesOrder}" var="serviceOrder" >
+                    <tr>
+                        <td><c:out value="${serviceOrder.id}"/></td>
+                        <td><c:out value="${serviceOrder.description}"/></td>
+                        <td><c:out value="${serviceOrder.value}"/></td>
+                        <td><button data-toggle="modal" data-target="#contratarOrdemServico${serviceOrder.id}" class="btn btn-success shadow-sm" data-id="${serviceOrder.id}" data-descricao="${serviceOrder.description}" data-valor="${serviceOrder.value}" >Contratar</button></td>
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="modal fade" id="contratarOrdemServico${serviceOrder.id}" tabindex="-1" role="dialog" aria-labelledby="contratarOrdemServicoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="contratarOrdemServicoModal${serviceOrder.id}" role="document">
+        <div class="modal-content text-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contratarOrdemServicoModal${serviceOrder.id}">Contratar ordem de serviço</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-dark">
+                <!-- Formulário para comprar peça -->
+                <form class="text-dark" action="${pageContext.request.contextPath}/ServiceOrderVehicleServlet" method="post">
+                    <input type="hidden" name="action" value="addServiceOrderVehicle">
+                    <input type="hidden" name="id" value="${serviceOrder.id}">
+                    <input type="hidden" name="description" value="${serviceOrder.description}">
+					<input type="hidden" name="value" value="${serviceOrder.value}">
+                    
+                    <div class="form-group">
+                        <label for="descricao">Descrição: ${serviceOrder.description}</label>
+                        <!-- <input type="text" class="form-control" id="descricao" placeholder="Digite a descrição da peça"> -->
                     </div>
+                    <div class="form-group">
+                        <label for="valor">Valor: ${serviceOrder.value}</label>
+                        <!-- <input type="text" class="form-control" id="valor" placeholder="Digite o valor da peça"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Placa: </label>
+                        <input type="text" class="form-control" name="plate" id="plate" placeholder="Digite a placa do seu carro">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Ano: </label>
+                        <input type="number" class="form-control" name="manufactureYear" id="manufactureYear" placeholder="Digite o ano do seu carro">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">modelo: </label>
+                        <input type="text" class="form-control" name="model" id="model" placeholder="Digite o modelo do seu carro">
+                    </div>
+                    <button type="submit"  class="btn btn-success" >Confirmar</button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+                    
                 </div>
             </c:forEach>
         </tbody>

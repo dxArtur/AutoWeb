@@ -12,6 +12,7 @@ import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.Vehicle;
 
 public class VehicleDAO {
+
     private Connection connection;
 
     public VehicleDAO() {
