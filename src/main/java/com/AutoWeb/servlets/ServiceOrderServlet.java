@@ -1,7 +1,7 @@
 package com.AutoWeb.servlets;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,17 +31,18 @@ public class ServiceOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String serviceOrderIdString = request.getParameter("serviceOrderId");
-		long serviceOrderId = Long.parseLong(serviceOrderIdString);
+		
 		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
-		Optional<ServiceOrder> serviceOrder = serviceOrderDAO.getServiceOrder(serviceOrderId);
+		List<ServiceOrder> servicesOrders = serviceOrderDAO.getAllServiceOrder();
+		
+		for (ServiceOrder order : servicesOrders) {
+	        System.out.println(order.getDescription()); 
+	    }
 	
-		if (serviceOrder.isPresent()) {
-			request.setAttribute("serviceOrder", serviceOrder);
-			request.getRequestDispatcher("/order_service_details.jsp").forward(request, response);
-		} else {
-			response.sendRedirect("erro.jsp");
-		}
+		
+			request.setAttribute("servicesOrder", servicesOrders);
+			request.getRequestDispatcher("/WEB-INF/views/serviceOrders/all_service_orders.jsp").forward(request, response);
+		
 	}
 
 	/**

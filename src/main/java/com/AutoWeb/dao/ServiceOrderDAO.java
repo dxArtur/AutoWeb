@@ -99,6 +99,28 @@ public class ServiceOrderDAO {
 	    }
 	}
 	
+	public List<ServiceOrder> getAllServiceOrder() {
+		List<ServiceOrder> servicesOrders = new ArrayList<>();
+		
+		String sql = "SELECT * FROM service_order";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet resultSet = stmt.executeQuery();
+			while (resultSet.next()) {
+				ServiceOrder serviceOrder = new ServiceOrder();
+				serviceOrder.setId(resultSet.getLong("id"));
+				serviceOrder.setDescription(resultSet.getString("description"));
+				serviceOrder.setValue(resultSet.getDouble("value"));
+				servicesOrders.add(serviceOrder);
+			}
+
+		}catch (SQLException e) {
+			throw new RuntimeException("Erro ao buscar todas as ordens de serviço: " + e.getMessage());
+	}
+	
+		return servicesOrders;
+	}
+	
 	public List<ServiceOrder> getAllServiceOrderCostumer(Long id) {
 		List<ServiceOrder> servicesOrder = new ArrayList<>();
 		
