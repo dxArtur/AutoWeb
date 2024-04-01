@@ -63,19 +63,19 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${parts}" var="part">
+                <c:forEach items="${parts}" var="part" >
                     <tr>
                         <td><c:out value="${part.id}"/></td>
                         <td><c:out value="${part.description}"/></td>
                         <td><c:out value="${part.value}"/></td>
                         <td><c:out value="${part.quantity}"/></td>
-                        <td><button data-toggle="modal" data-target="#comprarPecaModal" class="btn btn-success shadow-sm" data-id="${part.id}" data-descricao="${part.description}" data-valor="${part.value}" data-quantidade="${part.quantity}">Comprar</button></td>
+                        <td><button data-toggle="modal" data-target="#comprarPecaModal${part.id}" class="btn btn-success shadow-sm" data-id="${part.id}" data-descricao="${part.description}" data-valor="${part.value}" data-quantidade="${part.quantity}">Comprar</button></td>
                     
-                        <div class="modal fade" id="comprarPecaModal" tabindex="-1" role="dialog" aria-labelledby="comprarPecaModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+                        <div class="modal fade" id="comprarPecaModal${part.id}" tabindex="-1" role="dialog" aria-labelledby="comprarPecaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="comprarPecaModal${part.id}" role="document">
         <div class="modal-content text-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="comprarPecaModal">Comprar Nova Peça</h5>
+                <h5 class="modal-title" id="comprarPecaModal${part.id}">Comprar peça</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>

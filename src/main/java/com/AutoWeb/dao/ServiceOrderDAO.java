@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import com.AutoWeb.database.ConnectionFactory;
 import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.entities.Vehicle;
 
 
 public class ServiceOrderDAO {
@@ -20,29 +21,36 @@ public class ServiceOrderDAO {
 	}
 	
 	public void addServiceOrder(ServiceOrder serviceOrder) {
-		String sql = "INSERT INTO service_order (id, value, plate_vehicle, costumer_cpf) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO service_order (description, value ) VALUES (?, ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, serviceOrder.getId());
+			stmt.setString(1, serviceOrder.getDescription());
 			stmt.setDouble(2, serviceOrder.getValue());
-			stmt.setString(3, serviceOrder.getPlateVehicle());
-			stmt.setString(4, serviceOrder.getCpfCostumer());
-			stmt.setString(5, serviceOrder.getDescription());
 			
 			int rowsInserted = stmt.executeUpdate(); 
 	        if (rowsInserted > 0) {
 	        	System.out.println("Ordem de serviço adicionada com sucesso.");
 	        } else {
-	            System.out.println("Falha ao adicionar rdem de serviço.");
+	            stmt.setString(3, null); 
 	        }
-		} catch (SQLException e){
-			throw new RuntimeException(e);
-		}
+	        stmt.setString(4, serviceOrder.getCpfCostumer());
+	        stmt.setString(5, serviceOrder.getDescription());
+	        
+	        int rowsInserted = stmt.executeUpdate(); 
+	        if (rowsInserted > 0) {
+	            System.out.println("Ordem de serviço adicionada com sucesso.");
+	        } else {
+	            System.out.println("Falha ao adicionar ordem de serviço.");
+	        }
+	    } catch (SQLException e){
+	        throw new RuntimeException(e);
+	    }
 	}
+
 	
 	public Optional<ServiceOrder> getServiceOrder(Long id) {
 		ServiceOrder serviceOrder = null;
-		String sql = "select * from service_order where email = ?";
+		String sql = "select * from service_order where id = ?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setLong(1, id);
@@ -52,8 +60,6 @@ public class ServiceOrderDAO {
 					serviceOrder.setId(resultSet.getLong("id"));
 					serviceOrder.setDescription(resultSet.getString("description"));
 					serviceOrder.setValue(resultSet.getDouble("value"));
-					serviceOrder.setDescription(resultSet.getString("costumer_cpf"));
-					serviceOrder.setDescription(resultSet.getString("vehicle_plate"));
 					return Optional.of(serviceOrder);
 				}
 			}
@@ -97,6 +103,28 @@ public class ServiceOrderDAO {
 		}catch (SQLException e) {
 	        throw new RuntimeException(e);
 	    }
+	}
+	
+	public List<ServiceOrder> getAllServiceOrder() {
+		List<ServiceOrder> servicesOrders = new ArrayList<>();
+		
+		String sql = "SELECT * FROM service_order";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet resultSet = stmt.executeQuery();
+			while (resultSet.next()) {
+				ServiceOrder serviceOrder = new ServiceOrder();
+				serviceOrder.setId(resultSet.getLong("id"));
+				serviceOrder.setDescription(resultSet.getString("description"));
+				serviceOrder.setValue(resultSet.getDouble("value"));
+				servicesOrders.add(serviceOrder);
+			}
+
+		}catch (SQLException e) {
+			throw new RuntimeException("Erro ao buscar todas as ordens de serviço: " + e.getMessage());
+	}
+	
+		return servicesOrders;
 	}
 	
 	public List<ServiceOrder> getAllServiceOrderCostumer(Long id) {

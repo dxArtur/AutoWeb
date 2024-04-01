@@ -1,7 +1,7 @@
 package com.AutoWeb.servlets;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.entities.Vehicle;
 import com.AutoWeb.dao.ServiceOrderDAO;
+import com.AutoWeb.dao.VehicleDAO;
 
 /**
  * Servlet implementation class ServiceOrderServlet
@@ -31,34 +33,49 @@ public class ServiceOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String serviceOrderIdString = request.getParameter("serviceOrderId");
-		long serviceOrderId = Long.parseLong(serviceOrderIdString);
+		
 		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
-		Optional<ServiceOrder> serviceOrder = serviceOrderDAO.getServiceOrder(serviceOrderId);
+		List<ServiceOrder> servicesOrders = serviceOrderDAO.getAllServiceOrder();
+		
+		for (ServiceOrder order : servicesOrders) {
+	        System.out.println(order.getDescription()); 
+	    }
 	
-		if (serviceOrder.isPresent()) {
-			request.setAttribute("serviceOrder", serviceOrder);
-			request.getRequestDispatcher("/order_service_details.jsp").forward(request, response);
-		} else {
-			response.sendRedirect("erro.jsp");
-		}
+		
+			request.setAttribute("servicesOrder", servicesOrders);
+			request.getRequestDispatcher("/WEB-INF/views/serviceOrders/all_service_orders.jsp").forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String description = request.getParameter("description");
-		Double value = Double.parseDouble(request.getParameter("value"));
-		
-		ServiceOrder serviceOrder = new ServiceOrder();
-		serviceOrder.setDescription(description);
-		serviceOrder.setValue(value);
-		
-		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
-		serviceOrderDAO.addServiceOrder(serviceOrder);
-		response.sendRedirect("order_service_details.jsp");
-
+	    String description = request.getParameter("description");
+	    Double value = Double.parseDouble(request.getParameter("value"));
+	    String plate = request.getParameter("plate");
+	    String model = request.getParameter("model");
+	    Integer manufactureYear = Integer.parseInt(request.getParameter("manufactureYear"));
+	    
+	    ServiceOrder serviceOrder = new ServiceOrder();
+	    serviceOrder.setDescription(description);
+	    serviceOrder.setValue(value);
+	    
+	    
+	    Vehicle vehicle = new Vehicle(plate, model, manufactureYear);
+	    
+	   
+	    VehicleDAO vehicleDAO = new VehicleDAO();
+	    vehicleDAO.addVehicle(vehicle);
+	    
+	    
+	    serviceOrder.setVehicle(vehicle);
+	    
+	    
+	    ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+	    serviceOrderDAO.addServiceOrder(serviceOrder);
+	    
+	    response.sendRedirect("order_service_details.jsp");
 	}
 
 	/**
