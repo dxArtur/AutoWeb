@@ -19,24 +19,23 @@ public class VehicleDAO {
     }
 
     public void addVehicle(Vehicle vehicle) {
-        String sql = "INSERT INTO vehicles (plate, model, manufacture_year) VALUES (?, ?, ?)";
-    	try (Connection conn = new ConnectionFactory().getConnection();
-   	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO vehicles (plate, model, manufactureyear) VALUES (?, ?, ?)";
+        try (Connection conn = new ConnectionFactory().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, vehicle.getPlate());
             stmt.setString(2, vehicle.getModel());
             stmt.setInt(3, vehicle.getManufactureYear());
             
             int rowsInserted = stmt.executeUpdate(); 
             if (rowsInserted > 0) {
-                System.out.println("Veiculo adicionado com sucesso.");
+                System.out.println("Veículo adicionado com sucesso.");
             } else {
-                System.out.println("Falha ao adicionar veiculo.");
+                System.out.println("Falha ao adicionar veículo.");
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao adicionar veículo: " + e.getMessage(), e);
         }
     }
-
     public Optional<Vehicle> getVehicleByPlate(String plate) {
         String sql = "SELECT * FROM vehicles WHERE plate = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

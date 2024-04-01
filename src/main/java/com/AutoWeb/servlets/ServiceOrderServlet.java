@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.AutoWeb.entities.ServiceOrder;
+import com.AutoWeb.entities.Vehicle;
 import com.AutoWeb.dao.ServiceOrderDAO;
+import com.AutoWeb.dao.VehicleDAO;
 
 /**
  * Servlet implementation class ServiceOrderServlet
@@ -49,17 +51,31 @@ public class ServiceOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String description = request.getParameter("description");
-		Double value = Double.parseDouble(request.getParameter("value"));
-		
-		ServiceOrder serviceOrder = new ServiceOrder();
-		serviceOrder.setDescription(description);
-		serviceOrder.setValue(value);
-		
-		ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
-		serviceOrderDAO.addServiceOrder(serviceOrder);
-		response.sendRedirect("order_service_details.jsp");
-
+	    String description = request.getParameter("description");
+	    Double value = Double.parseDouble(request.getParameter("value"));
+	    String plate = request.getParameter("plate");
+	    String model = request.getParameter("model");
+	    Integer manufactureYear = Integer.parseInt(request.getParameter("manufactureYear"));
+	    
+	    ServiceOrder serviceOrder = new ServiceOrder();
+	    serviceOrder.setDescription(description);
+	    serviceOrder.setValue(value);
+	    
+	    
+	    Vehicle vehicle = new Vehicle(plate, model, manufactureYear);
+	    
+	   
+	    VehicleDAO vehicleDAO = new VehicleDAO();
+	    vehicleDAO.addVehicle(vehicle);
+	    
+	    
+	    serviceOrder.setVehicle(vehicle);
+	    
+	    
+	    ServiceOrderDAO serviceOrderDAO = new ServiceOrderDAO();
+	    serviceOrderDAO.addServiceOrder(serviceOrder);
+	    
+	    response.sendRedirect("order_service_details.jsp");
 	}
 
 	/**
